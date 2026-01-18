@@ -7,7 +7,7 @@ This repository contains the official implementation and datasets for the paper 
 
 ## 📖 Overview
 
-**ImpReSS** (Implicit Recommender System for Support) is a lightweight recommendation architecture designed for customer support agents. Unlike traditional Conversational Recommender Systems (CRSs) that assume a user wants to buy something, ImpReSS infers **Solution Product Categories (SPCs)** directly from the problem-solving context without explicit purchasing intent.
+**ImpReSS** (Implicit Recommender System for Support Conversations) is a lightweight recommendation architecture designed for customer support agents. Unlike traditional Conversational Recommender Systems (CRSs) that assume a user wants to buy something, ImpReSS infers **Solution Product Categories (SPCs)** directly from the problem-solving context without explicit purchasing intent.
 
 The system uses a two-stage approach:
 1.  **LLM-based Diagnosis:** Distills support conversations into concise diagnostic queries using small, open-source LLMs (e.g., Llama-3.2-1B).
