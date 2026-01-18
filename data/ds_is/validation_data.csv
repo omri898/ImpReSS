@@ -1,0 +1,234 @@
+question_id,ground_truth,conversation
+145021,['vpn'],"**User:**
+How to avoid a bot getting caught? I'm making a bot to scrape data from a website for study purposes. But I don't want them to catch it and block my ip. Basically what I do is scraping few images and few lines of texts.(using dom and html parsing with regex :- I know It's horrible , but this is for a simple set of webpages) What I already tried is running the bot in 2-3 minutes time intervals and scrape few data and turn off, will that be enough to not getting caught? Else , what should I do ? Most importantly what is your idea of making a bot which is not going to get caught.
+
+important
+
+This is just for research and study purposes , not violating the site's security policies .
+
+Im just worried about if they see my unusual bot traffic and block my ip .
+
+*trust me my bot is innocent *
+
+**Assistant:**
+You could route your traffic through Tor. If you get blocked, you can simply change to a new virtual circuit with a different exit node. You could achieve this by integrating a Tor client library into your scripts, e.g. libtor. You could also set your system's HTTP proxy to a local SOCKS proxy capable of connecting to Tor. Some good options have been discussed on SuperUser.SE. This could fail if the servers can detect and block connections from the Tor network.
+
+Other than that, you could try routing your traffic through a plain old HTTP proxy. Even this could fail if your script has a particular user agent fingerprint that can be identified and blocked.
+
+You could also access pages through Google's internet cache or the Internet Archive. You may be able to cleverly use Google queries to do your scraping for you, sidestepping your concerns entirely.
+
+Any attempt to evade detection will slow your crawling, possibly a lot. Tor will be very slow. Furthermore, this is arguably a malicious use of Tor. However, this method could be ethical in the case of a legal penetration test in which you attempt to simulate attackers.
+
+Ultimately, you aren't engaging in a penetration test, so evading detection is not really necessary. If you're worried about being blocked, you could talk to the site owners and seek their permission to crawl the website. Perhaps they don't care, as is usually the case with publicly available websites."
+169083,"['ips and ids', 'firewall']","**User:**
+Is allowing public access to a DNS server, a security threat? If i was to create a DNS server that is hosted at my home, so then i can use it for my VPS servers; am I creating any security threat that can be abused by unknown clients from around the globe?
+
+TL;DR:
+If i set-up a DNS server, is it safe to open port 53 to the internet?
+
+**Assistant:**
+There are some attack methods (especially Dos/DDoS) using DNS Servers such as; DrDoS and DNS Amplification but there are also ways to strengthen your DNS Server and the connection between server and VPSs.
+
+
+DNSCrypt is one of them (and I highly suggest you to use it by default) used especially for preventing DNS Spoofing.
+If you want not only your VPS Servers but also others may send a DNS request, you may use Limit option to set limits to prevent excessive traffic.
+At the end, you may want to use a log management and monitoring system (there are dozens of log management and monitor system available both open source and paid ones).
+
+
+Note: There are some readings that you may use it to develop your understanding about DNS Server security practices:
+
+
+https://technet.microsoft.com/en-us/library/cc770432(v=ws.11).aspx
+https://www.sans.org/reading-room/whitepapers/dns/security-issues-dns-1069
+https://www.cisco.com/c/en/us/about/security-center/dns-best-practices.html
+What can and can't a malicious DNS do?
+Listing of DNS vulnerabilities
+https://insights.sei.cmu.edu/sei_blog/2017/02/six-best-practices-for-securing-a-robust-domain-name-system-dns-infrastructure.html"
+171356,['vpn'],"**User:**
+Consequences of the WPA2 KRACK attack Today new research was published on vulnerabilities in wireless network security called Krack.
+
+What are the real-world consequences of these attacks for users and owners of wireless networks, what can an attacker actually do to you?
+
+Also is there anything a wireless network owner can do apart from contact their vendor for a patch?
+
+**Assistant:**
+Citing the relevant parts from https://www.krackattacks.com:
+
+Who is vulnerable?
+
+Both clients and access points are listed in the paper as being vulnerable. See the tables 1 and 2 on pages 5 and 8 for examples of vulnerable systems, and table 3 on page 12 for an overview of which packets can be decrypted.
+
+
+  The weaknesses are in the Wi-Fi standard itself, and not in individual products or implementations. Therefore, any correct implementation of WPA2 is likely affected. [...] the attack works against personal and enterprise Wi-Fi networks, against the older WPA and the latest WPA2 standard, and even against networks that only use AES.
+
+
+What is the impact?
+
+
+
+  adversaries can use this attack to decrypt packets sent by clients, allowing them to intercept sensitive information such as passwords or cookies.
+
+
+  The ability to decrypt packets can be used to decrypt TCP SYN packets. This allows an adversary to [...] hijack TCP connections. [An adversary can thus inject] malicious data into unencrypted HTTP connections.
+
+
+  If the victim uses either the WPA-TKIP or GCMP encryption protocol, instead of AES-CCMP, the impact is especially catastrophic. Against these encryption protocols, nonce reuse enables an adversary to not only decrypt, but also to forge and inject packets.
+
+
+  our attacks do not recover the password of the Wi-Fi network
+
+
+
+(Emphases mine.)
+
+Can we patch it (and will we have incompatible APs/clients)?
+
+There is a fix for both APs and clients, it doesn't matter which one you patch first.
+
+
+  implementations can be patched in a backwards-compatible manner [...] To prevent the attack, users must update affected products as soon as security updates become available. [...] a patched client can still communicate with an unpatched access point, and vice versa.
+
+
+However, both client and router must be patched (or confirmed secure):
+
+
+  both the client and AP must be patched to defend against all attacks [...] it might be that your router does not require security updates. We strongly advise you to contact your vendor for more details [...] For ordinary home users, your priority should be updating clients such as laptops and smartphones.
+
+
+How does it work?
+
+
+  When a client joins a network, it [...] will install this key after receiving message 3 of the 4-way handshake. Once the key is installed, it will be used to encrypt normal data frames using an encryption protocol. However, because messages may be lost or dropped, the Access Point (AP) will retransmit message 3 if it did not receive an appropriate response as acknowledgment. [...] Each time it receives this message, it will reinstall the same encryption key, and thereby reset the incremental transmit packet number (nonce) and receive replay counter used by the encryption protocol. We show that an attacker can force these nonce resets by collecting and replaying retransmissions of message 3 of the 4-way handshake. By forcing nonce reuse in this manner, the encryption protocol can be attacked, e.g., packets can be replayed, decrypted, and/or forged.
+
+
+Is there anything a wireless network owner can do apart from contact their vendor for a patch?
+
+As mentioned, WPA-TKIP or GCMP are slightly worse, so make sure you use AES-CCMP for the lowest impact -- if your router allows you to choose that (many don't). Other than that, you can't truly mitigate it on a protocol level yourself. Just update as soon as possible.
+
+Generally, use HTTPS for anything that needs to be secure (you should do this anyway, also over ethernet, but especially over Wi-Fi now), etc."
+182843,['password manager'],"**User:**
+Patterns in password creation over multiple passwords Lets say I create 100 separate passwords, consisting of around eight random characters followed by two constant ones that are the same for all passwords:
+
+Generated password = 8 random characters + `.p`
+
+
+If I do this for all 100 passwords, does adding the same .p for every password make them more or less secure? How much of an impact would it have if two of all those passwords were compromised?
+
+**Assistant:**
+It depends on what kind of attack you are trying to protect against:
+
+If your password is one among millions in a data breach where the attacker isn't targeting you specifically, then your password is effectively 10 random characters long instead of 8. It will be harder to crack.
+If an attacker is targeting you, and knows about your pattern, then it gives you no protection at all.
+If an attacker is targeting you, and doesn't know about the pattern, it could help until the attacker finds out about it. Breaking one account would give a little help, breaking two would make the pattern obvious and hence useless.
+
+So your system could be helpful sometimes, but not always. Or in other words: your ""effective"" password length will be somewhere between 8 and 10 depending on your threat model. But unless you have some specific reason not to, I would just forget all about clever systems and focus on employing robust and unique passwords for each account."
+194966,['two factor authentication'],"**User:**
+Bank sends one-time password by e-mail (while sending on SMS) for transaction verification; is this insecure? Most of the banks uses OTP (One Time Password) to enrich the authentication through dual factor.
+
+But I observed Banks are sending the OTP to mobile as well as email.
+
+I suppose sharing passwords on email is not secure and it's not a recommended practice by Information Security experts.
+
+Below is the sample email I receive with the OTP to mobile:
+
+
+
+Is my OTP is not secure due to bank practice? Or Am I missing something here?
+
+**Assistant:**
+Multi-factor authentication is more secure than simply using a long-lived password. A temporary access code that sits in your email account will be useless if (1) you don't have the account password/secret key (or other credentials required to login) or (2) the temporary access code has been used once.
+
+Yes, it is bad advice to send long-lived passwords via email or SMS (as email is often transferred between mail servers unencrypted and may be eavesdropped on -- say by malicious sysadmins -- and email is commonly stored on your desktop unencrypted). However, it is common practice to send temporary access codes that are useless on their own without other necessary information. In fact it's provably stronger than not requiring the additional necessary information. There are potentially better ways to do multi-factor authentication than potentially insecure email (e.g., dedicated hardware devices, though it's probably not feasible for every bank to issue separate devices to every customer and expect most customers to keep them secure and not lose them). Bottom-line, requiring an additional piece of information to demonstrate ability to read messages sent to your email address or phone number is stronger than not requiring it (though it would be a bad idea to allow someone with only access to your phone or email address to easily get full control of your bank account)."
+199163,"['web application firewall', 'firewall']","**User:**
+Is it safe to open ports 80 and 443 in a home network The intention behind this is that I'll be able to host a website from a home server (another pc with ECC ram etc.), but what worries me is that the network I'm using is also the same network which I use in my normal daily activities (my home network). 
+
+Before sending a request to my housing company to open those ports I want to make sure that it really is safe to open those ports as I do not have access to the ""sharing center"" nor its infrastructure (I do not know the correct term in English but it's the place where the internet is distributed(?) between tenants), although I do have my own router with its own firewall.
+
+Currently:
+Sharing center (closed, need to open a few ports) -> router (port forwarded) -> pc (open ports)
+
+On a side note, I suppose you can host multiple different websites under different domains on the same port? (no need for explanation here, I can look that up)
+
+**Assistant:**
+Generally the best practice for this is to have a DMZ. The DMZ is a subnet for any servers (like web servers) which will service requests from clients off your network. In addition any databases or other devices/servers that are needed to provide services for the web servers should live in the DMZ (preferably each on their own VLANs). These external facing servers are placed such that only proper http or https traffic can reach your DMZ. Additionally, if you are protecting sensitive information, it's advisable to employ a solution that inspects http/https traffic and filters out a huge collection of known malicious http/https sql etc attacks common to web servers.
+
+One major purpose of this design is to limit the damage in the (reasonably likely) event that somebody manages to compromise your web server.
+
+note* The DMZ should not be able to initiate connections into your internal network. You only want internal to DMZ traffic (not DMZ to internal)."
+237777,['ssl and tls certificate authorities'],"**User:**
+Is it the public key or the key pair that is included in the x509 certificate? I use these commands to create a self-signed certificate, subject's key and CSR, and subject's signed certificate:
+Root CA:
+openssl req -new -sha256 -x509 -days 7300 -out ca.crt -keyout ca.key.pem -nodes
+
+Server CSR:
+openssl req -new -sha256 -out server.csr -keyout server.key.pem  -nodes
+
+Sign with CA:
+openssl ca -cert ca.crt -days 3650 -md sha256 -in server.csr -out server.crt
+
+The CA signs the CSR with its private key, does this mean that the root certificate (ca.crt) contains the private key?
+
+**Assistant:**
+The private key is never included in the certificate; certificates are publicly available.
+A specific signing key is specified either through a flag or through the config file. When none is specified, the default config file is used (depends on how openssl was built) which points to a designated private key file (at least mine does, mileage may vary).
+To properly use openssl you should really have a config file specifying the desired values. See this StackOverflow question for a lot more details. Or if you don't want to deal with the madness and giant pile of cruft that is openssl, use a more modern tool such as cfssl."
+243039,['ssl and tls certificate authorities'],"**User:**
+Is it possible to use Certbot for automating SSL certificates with CAs other than Let's Encrypt? Is it possible to use Certbot for automating the renewal process of the SSL certificates with CAs other than Let's Encrypt?
+
+**Assistant:**
+Yes, certificates can be provisioned using ACME. ACME facilitates the acquisition of free certificates. It also supports requesting paid certificates.
+To use this, you need to pass extra arguments to certbot, most notably --server."
+266879,['authentication and authorization'],"**User:**
+Any obvious pitfalls of modeling access control policies using subject, scope, object? Context
+A small web application with REST API and postgres as db, that has users, documents and teams. A user can do basic CRUD operations on document.
+A user is always a part of a team. A team is generated on user signup. A team has at least one member and zero or more documents.
+Policy model
+CREATE TABLE
+  IF NOT EXISTS policy (
+    id         UUID UNIQUE              NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+    namespace  VARCHAR(64)              NOT NULL,
+    subject    UUID                     NOT NULL,
+    scope      VARCHAR(64)              NOT NULL,
+    object     UUID                     NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    UNIQUE (namespace, subject, scope, object)
+  );
+
+Example
+| id          | namespace  | subject        | scope             | object         | 
+| policy-uuid | ""user""     | user-uuid      | ""CreateDocument""  | team-uuid      | -> User can create document in team-uuid
+| policy-uuid | ""user""     | user-uuid      | ""CreateTeam""      | app-uuid       | -> User can create team in app-uuid instance
+| policy-uuid | ""user""     | user-uuid      | ""FindDocument""    | document-uuid  | -> User can find document-uuid (search)
+| policy-uuid | ""user""     | user-uuid      | ""DeleteDocument""  | document-uuid  | -> User can delete document-uuid
+| policy-uuid | ""user""     | user-uuid      | ""FindUser""        | user-uuid      | -> User can find user-uuid (search)
+| policy-uuid | ""user""     | user1-uuid     | ""UpdateUser""      | user2-uuid     | -> User1 (admin) can update User2's info
+| policy-uuid | ""document"" | document1-uuid | ""LinkDocument""    | document2-uuid | -> Document1 can link to Document2
+
+Checking
+So a function new_team() will check if (user.uuid, ""CreateTeam"", app-uuid) is present in policy table and update_doc(doc: Document) will check (user.uuid, ""UpdateDocument"", doc.uuid).
+Ignore namespace. It's an application level identifier, not used for checking policy.
+Question
+Are there any obvious pitfalls I haven't considered? And if so, is there a better way of modeling these kinds of policies?
+
+**Assistant:**
+I've got some good news for you. Your intent is spot on. Your design is OK but never mind that. You've stumbled across an established paradigm. Either way, you don't need to implement it yourself because there are a lot of tools out there (vendors, open-source...) that will help you.
+To begin with, there's the paradigm (which is essentially what you tried to design). NIST, the National Institute of Standards and Technology, defined it in their special publication. No need to read through all that, though.
+The main takeaway though is: don't do it yourself. Would you want to reinvent crypto? No, right? So don't write logic from scratch."
+276983,['fido u2f device'],"**User:**
+How to store private keys on flashdrive I'm trying to create a secure and private way to access my personal PC from most desktop PCs. The method I've devised so far is:
+
+Create an SSH tunnel to my PC
+
+The connection is encrypted
+The connection uses a public key exchange instead of a password
+The connection requires the passphrase of my key and two-factor authentication via my phone
+
+
+Use a remote desktop to access my PC - I'm using Windows' Remote Desktop Connection since it will already be installed on most PCs
+I'm storing the private key for the SSH connection on a flash drive
+
+The biggest weakness I see is that my private key is on a flash drive that I'm liable to loose. Is there a good alternative, maybe encrypting the flash drive, so that even if I loose it I'm not too exposed? The key is also encrypted via passphrase, so I think I'm alright. But the drive also has my IP. BitLocker is not an option as I don't have windows Pro or Enterprise.
+Criticisms of other glaring holes in my plan are also welcome. Of course, I would also have to reasonably trust the client PC I'm using to connect to my server.
+
+**Assistant:**
+If the private key is protected with a strong(!) passphrase that cannot realistically be recovered with a brute-force attack, it's fine to store it on a USB stick. Adding another factor like time-based one-time passwords makes this a fairly solid scheme. An attacker would have to get your USB stick and your passphrase and your phone."

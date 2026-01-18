@@ -1,0 +1,215 @@
+question_id,ground_truth,conversation
+144488,['ssl and tls configuration scanning tool'],"**User:**
+Will HTTPS negotiations slow down as more domains are added to the certificate? We run a store frontend with 15 different wildcard domains (*.foo.ie, *.foo.uk etc) in the certificate. We're considering adding the root domain (foo.ie, foo.uk) into the certificate, to let the store frontend handle the redirect to www.foo.* - or possibly set up another certificate with just the root certificates, and a simple frontend that just redirects it.
+
+My question is, does a certificate with many domain names cause increased HTTPS negotiation times by any significant factor - ie, by causing more data to be sent over the wire, possibly causing more TCP segments?
+
+There's added cost in reading the cert from disk/ram and processing it, but this should be negligible compared to even minor increases in 'time on the wire'.
+
+**Assistant:**
+The number of names is a very small amount of data overall; if it pushes delivering the certificate over a packet size threshold, the added delay won't perceptibly impact human users that have broadband or other high speed connections. The receiving computer will have up to 14 extra strings to scan; again, an imperceptible amount of overhead to any particular human user.
+
+A certificate survey conducted a few years ago, presented findings at Blackhat. They found many issues that contributed to performance problems. In the case of multiple domain names, they found one certificate with 354 unrelated domain names, and the certificate was 8.2KB long! So yes, there is a line you probably don't want to cross, and 354 appears to cross it.
+
+Another common problem they found impacting performance was that some validation chains were too long. A long time ago, some PKI architects were advocating a multi-tiered approach, where every certificate would be signed by a root CA, one or two Subordinate CAs, and one or two Policy CAs. Running through the RSA math on four different validation steps is what bogged down the clients, much more than the size of the certificates. (The survey found 8 certificates that had a signing depth of 6!) To keep performance as high as possible, keep the signing chain as short as possible.
+
+They also saw 43% of servers were sending too many certificates. Normally, you would include the server's cert and any intermediate signing certificates needed to validate it up to the root (the root cert is normally contained within the browser, unless it's a self-signed cert.) Many sites were wasting bandwidth by including additional certificates not needed to validate their site. One site sent a certificate file back that contained 116 certificates!
+
+Finally, they found lots of certificates that were just plain bad. They were self-signed, expired, used weak algorithms, or had other flaws that meant their protection is less than optimal. Of all the things you need to achieve with a certificate, security is number one - performance is not. So I'd recommend using an analysis tool to understand your setup. I run this check every time I change my server's configuration and after updating my certificate.
+
+UPDATE: I've switched to using a different script-based method to check my server. Make sure you're running an up-to-date version of the utility, then run the command to list the ciphers supported by the server. This will provide a letter grade indicating the security of each, and an overall grade for your server. Good for finding things like out of date and insecure versions of SSL/TLS, 64 bit ciphers, etc. And you can run it on any host and port, so you can test app servers, web services, internal servers that are behind your firewalls, etc."
+161074,"['phishing detection', 'antivirus']","**User:**
+Received 2 ""Delivery Status Notification (Failure)"" Mails from postmaster@hotmail.com with messages I did not send. Is this an attack? about 1-2 hours ago, I received 2 emails from postmaster@hotmail.com on my personal email with title ""Delivery Status Notification (Failure)"" and a body as such:
+
+
+  This is an automatically generated Delivery Status Notification.
+  
+  Delivery to the following recipients failed.
+
+   (email I never heard of)
+
+
+
+The emails have 2 attachments: details.txt containing the following content:
+
+
+  Reporting-MTA: dns;SNT004-IMC1S8.hotmail.com Received-From-MTA:
+  dns;SNT004-MC5F5.hotmail.com Arrival-Date: Fri, 2 Jun 2017 11:03:56
+  -0700
+  
+  Final-Recipient: rfc822;(email I've never heard of) Action: failed Status: 5.5.0
+  Diagnostic-Code: smtp;550 Requested action not taken: mailbox
+  unavailable (-506263085:397:0)
+
+
+and an Outlook item called ""You've Got Postcard"" with login credentials for My Postcard.
+
+Is this a known scam or malware attack? I use Outlook, and unfortunately it showed both emails in a preview window, which from what I understand is equally bad as directly opening the email with regards to potential for infection.
+
+
+
+Update: the website that the ""You've got Postcard"" mail links to is wintergate dot com slash controlsk dot php (escaped to avoid accidental visits). One of the credentials (in case it helps) is kkrasa, Domain msn, Top Level Domain com (escaped to avoid spam) with password ""BIZ"" + ""K7"", so both quoted terms concatenated in this order without double quotes.
+
+If anyone is interested in the direct HTML of the Postcard mail, it can be found at https://pastebin.com/twSL5v4a. I have already deleted the original email, so I cannot provide anything beyond this (this was in my Notepad++ cache).
+
+**Assistant:**
+Its a very common type of phishing. Most likely they have spoof your address as the sender (From: ) and might intentionally cause a bounce so you would get/open the emails.
+
+You are correct in that it is as bad. This is specially true if the email is html encoded and it could be executing something malicious and you wouldn't even know it.
+
+Your are always much safer in running outlook in plain text mode only and probably only load html emails from trusted sources.
+
+Again though I would opt out to view emails in plain text just to be safe."
+164730,['vpn'],"**User:**
+TunnelBear VPN Chrome extension doesn't encrypt DNS Queries I'm using a VPN provider in occurance TunnelBear and decided today to run Wireshark in parallel and found out that DNS resolutions are happening un-encrypted using OS default name resolution, e.g. through the DNS server IP addresses set in Windows. 
+
+In a nutshell TunnelBear is a plugin that adds on Chrome and is supposed to route all web traffic including DNS encrypted through their network. 
+
+This alarmed me quite a bit, and am wondering just to further confirm, if I didn't activate any special packet decryption setup in Wireshark, that truly means that whatever I'm seeing on Wireshark could not have been encrypted originally and decrypted by Wireshark, is that correct ?
+
+**Assistant:**
+I have found the answer after speaking with TunnelBear support and got their confirmation.
+
+Indeed, domain queries were going out unencrypted which is why I could see them in Wireshark when using the TunnelBear browser extension alone.
+
+It's because the extension sandbox in Google Chrome doesn't allow them to override DNS resolutions. But they have a workaround, which is to install the full version of their desktop program.
+
+Here was their response:
+
+
+  Hey Wadih,
+
+  Sorry if I wasn't clear in my explanation. I talked to our engineers a
+  little more and they've clarified this for me further.
+
+  It doesn't (and can't) encrypt DNS requests made by Chrome browser
+  itself because whatever Chrome does is outside of the our extension's
+  sandbox.
+
+  if you are concerned about all traffic and all DNS requests being
+  encrypted, you should be using the full desktop app
+  (tunnelbear.com/download). When using the full desktop application, you
+  should compare your WireShark results, at which point you should be
+  seeing ALL DNS queries as being encrypted.
+
+  I hope this helps clarify expected behaviour a little further.
+
+  4-3-2-1 Tunnel!"
+180321,['ips and ids'],"**User:**
+Is this what a brute force SSH attack looks like? I reviewed the auth.log file on my Ubuntu server to find:
+
+
+[preauth]
+Feb 22 17:39:18 code-storage sshd[17271]: Disconnected from 147.135.192.203 port 49408 [preauth]
+Feb 22 17:40:15 code-storage sshd[17273]: Invalid user ellen from 147.135.192.203
+Feb 22 17:40:15 code-storage sshd[17273]: input_userauth_request: invalid user ellen [preauth]
+Feb 22 17:40:15 code-storage sshd[17273]: Received disconnect from 147.135.192.203 port 50193:11: Normal Shutdown, Thank you for playing [preauth]
+Feb 22 17:40:15 code-storage sshd[17273]: Disconnected from 147.135.192.203 port 50193 [preauth]
+Feb 22 17:40:34 code-storage sshd[17275]: Connection closed by 103.237.147.107 port 17583 [preauth]
+Feb 22 17:41:12 code-storage sshd[17277]: Invalid user emil from 147.135.192.203
+Feb 22 17:41:12 code-storage sshd[17277]: input_userauth_request: invalid user emil [preauth]
+Feb 22 17:41:12 code-storage sshd[17277]: Received disconnect from 147.135.192.203 port 50841:11: Normal Shutdown, Thank you for playing [preauth]
+Feb 22 17:41:12 code-storage sshd[17277]: Disconnected from 147.135.192.203 port 50841 [preauth]
+Feb 22 17:42:05 code-storage sshd[17280]: Invalid user enzo from 147.135.192.203
+Feb 22 17:42:05 code-storage sshd[17280]: input_userauth_request: invalid user enzo [preauth]
+Feb 22 17:42:05 code-storage sshd[17280]: Received disconnect from 147.135.192.203 port 51356:11: Normal Shutdown, Thank you for playing [preauth]
+Feb 22 17:42:05 code-storage sshd[17280]: Disconnected from 147.135.192.203 port 51356 [preauth]
+Feb 22 17:42:14 code-storage sshd[17282]: Connection closed by 103.237.147.107 port 64695 [preauth]
+Feb 22 17:43:00 code-storage sshd[17285]: Invalid user felix from 147.135.192.203
+Feb 22 17:43:00 code-storage sshd[17285]: input_userauth_request: invalid user felix [preauth]
+Feb 22 17:43:00 code-storage sshd[17285]: Received disconnect from 147.135.192.203 port 52145:11: Normal Shutdown, Thank you for playing [preauth]
+Feb 22 17:43:00 code-storage sshd[17285]: Disconnected from 147.135.192.203 port 52145 [preauth]
+Feb 22 17:43:52 code-storage sshd[17287]: Connection closed by 103.237.147.107 port 55122 [preauth]
+Feb 22 17:43:56 code-storage sshd[17289]: Invalid user fred from 147.135.192.203
+Feb 22 17:43:56 code-storage sshd[17289]: input_userauth_request: invalid user fred [preauth]
+Feb 22 17:43:56 code-storage sshd[17289]: Received disconnect from 147.135.192.203 port 52664:11: Normal Shutdown, Thank you for playing [preauth]
+
+
+There is much more than this, but this is from the last few minutes before I copied the log file. 
+
+Is this a brute force SSH attack, and if so should I be worried and what are the best mitigation steps and/or solutions other than changing the server IP?
+
+**Assistant:**
+Is this a bruteforce attack
+This looks like the background scanning that any server on the internet will experience.
+Should I be worried
+Not really, background scanning is completely normal, as long as your passwords are secure background scanning should pose no risk.
+What are the best mitigation steps
+You can use the following to make the server more secure:
+
+Disable SSH service when you don't need it.
+Only allow login using key auth
+Disable root ssh access
+Implement automated blocking of repeated failed login attempts.
+
+Should I change IPs
+Changing IPs will probably not affect automated background scanning much"
+202221,"['antivirus', 'virus scanner']","**User:**
+Roommate Network I'm living with some roomies that I sort of know and occasionally I use their internet. I'm pretty computer savvy but know very little about networks. None of them are too computer savvy and I have reason to believe that at least one of them probably visits malicious or even illegal websites, although I can't prove it. 
+
+What can I do to keep my own computer safe and protect my own legal status? I only use the network for looking up programming documentation and downloading linux packages, all of which I can do elsewhere if I have to. Am I at risk from whatever they do? What's the best play here?
+
+**Assistant:**
+More information would be helpful here. I'm going to assume that the home network is just a wireless router that you all share? If so, there are a couple things you can do. I'm assuming a normal set up and there isn't anything strange like the firewall being disabled or etc.
+
+
+Make sure your computer is fully updated and backed up. Your major risk is if their computer gets affected and is then attacking you directly, so make sure you are protected.
+Check the home router to see if it has a setting called ""network isolation"". This will be by far the best protection you can enable if you have that option.
+Know that the other computers on your network aren't a threat to you unless they get infected, or one of your roommates is being malicious.
+Set up multiple networks. Some routers have the ability to set up separated networks. That can be a guest/main, or 2.4 vs 5 G, or just multiple SSIDs. This will help by creating some network segmentation away from your roommates.
+Talk to your roomates. If you don't feel good directly confronting the sketchy behavior, you can still ask them what can be done to make sure your network is as secure as possible."
+257082,['password manager'],"**User:**
+Why are passwords generated by a password generator a complicated mix of letters and numbers instead of a long phrase? E.g. if I were to register for a new website and am prompted for a password, my browser might generate a complicated password that looks like uv^2<YGYy}#Vj}=f which might be impossible to crack but also impossible to remember.
+Why such passwords instead of, say, AllThatIsGoldDoesNotGlitterNotAllWhoWanderAreLost which uses fewer characters but is much longer? The sheer length (49 characters) should also make it impossible to crack, but because it's a recognizable phrase it's also much easier to remember.
+
+**Assistant:**
+You say you want the browser to suggest a recognizable (which I take to mean coherent) phrase. Have you thought about how a browser would implement that? The browser cannot keep a long list of such phrases, because for the list to be even remotely secure, it would have to be ridiculously large. If the browser tries to use some sort of AI to create a coherent phrase on the spot, it would have to ensure that the algorithm does not have and does not develop any sort of bias. I'm not sure how hard of a task that is, but it's probably not worth the effort. Pulling the phrase from the internet would also not be acceptable to many people, for obvious reasons.
+A more practical alternative would be to generate xkcd style passphrases. However, these will probably not be as memorable as you might want, specially when you have dozens of them, for all the different sites you have accounts on.
+Given these limitations in generating truly memorable or coherent suggestions, browsers prioritize security. They suggest complex passwords that have enough entropy to resist all sorts of password guessing attacks."
+258204,['two factor authentication'],"**User:**
+Should a user refill their 2FA when they login into a different account and back? Some of our users on our website have two or more accounts they use to log in. With each device they log in a specific device ID is generated. This device ID is stored on the device itself and on the server. We use this device ID to confirm whether the device needs to fill in a 2FA code or not. If we don't recognize the device ID, they must fill in their 2FA code. A device ID is 1 on 1 coupled with an account right now. So when a user logs out and logs back in with the same account, they won't need to fill in their 2FA because the device ID would match. After two weeks, the device ID times out, and we ask for a 2FA code again and send a new device ID to be used.
+However, when a user logs out and logs into a different account, the device ID is not recognized with this user. The server sends a new device ID to be used to authenticate the user and a 2FA code is asked. Some users switch a lot with their accounts and have complained about needing to fill in their 2FA all the time.
+But what I am really worried about is whether it's safe to keep a whole list (depending on amount of accounts they logged in with) of device ID's on the client side. If the device somehow got taken over, these IDs could be read and used to skip the 2FA. This time not for a single account, but multiple accounts. But then again, if a device got taken over, there are probably bigger issues to be worried about.
+I feel like I am overthinking this issue.
+
+**Assistant:**
+It's probably best to ask the user what they want to do, after they sign in. In particular, offer the ability to:
+[Default] Forget the other account on this device
+Remember both on this device (neither will need to sign in again for the usual time period)
+[Optional] Combine accounts such that either one can be used to authenticate the other (also requires authenticating the other account at the same time).
+You can of course provide suitable advice warnings about the risks (option 1 is default behavior and what you should always use with a public computer, option 2 is for shared computers where people mostly trust each other but if you don't want to let others bypass authentication for your account you need to explicitly sign out, option 3 [if offered] is for the same person with multiple accounts, and shouldn't be used with anybody else you don't trust in the """"joint account"""" sense). Ultimately, though, the decision is already in the user's hands - they could use different browser profiles, or different OS user accounts, or different browsers, or a shell script that swaps out the cookie/local storage DB on demand (which is basically a hack for browser profiles, of course), or whatever - so the goal is accommodate their needs without making other users less safe.
+For the technical details, it depends a lot on how you remember devices. If it's an opaque token per user, you'd need to adjust the storage format to either tolerate a list of tokens or store multiple tokens in different records (e.g. prefixed with a user ID) and send the appropriate one (or all of them, e.g. if they're stored in cookies, and let the server sort it out), or you need to update the back end such that a single opaque token can refer to multiple users. That last option shouldn't actually be hard; presumably each user can have multiple devices already, so if you store a unique token on each (instead of reusing the tokens, which shouldn't be possible because they should be hashed in the DB) then you need a table of token:UID mappings, and if you remove the constraint on uniqueness of the token, one token can map to multiple UIDs). If you instead use JWTs or similar signed tokens, you can easily mint a new token that is valid for multiple parties (does require updating the server to handle this case, but should be easy)."
+263261,['ssl and tls certificate authorities'],"**User:**
+Verify sender/source using encyrption with a private key I have an application that retrieves data from other IoT devices (think in my home, or personal health devices for monitoring). How can I make sure that the data my application receives comes from the devices I trust? In other words, I want to make sure that attackers cannot present false data to my application.
+The method I had in mind was letting these IoT devices encrypt my data using a private key. If an attacker presents false data without knowledge of the private key, my application won't be able to decrypt it, and hence this indicates that the data is not sent by a trusted source. However, this seems like an unnatural method to do this.
+Some notes:
+
+The information flows according to a pull model, so the application pulls data from the IoT devices. I'm assuming that attackers can pretend to be another device (by copying an IP or MAC address).
+The application is not really implemented. I'm modelling the security requirements for the architecture.
+
+
+**Assistant:**
+You can establish a cryptographically secure channel to verify the device that your application is communicating with and protect communications.
+But if you only want to verify the data that you're receiving on your application (without encryption), you can sign the data with a private key that only the IoT device has, and verify it in your application using the IoT device's public key. However, not having an encrypted channel for communication or rolling your own cryptographic protocol is not recommended. It is better to use protocols that have been around for a while and have had enough time to get audited. Additionally, you should encrypt data to prevent leaking sensitive data or violating user's privacy."
+268202,['captcha service'],"**User:**
+How to block a POST curl request My WordPress website received a couple of fake subscriptions to the newsletter. I identified the logs, most of them with the same form as below:
+xx.xx.xx.xx example.com - [04/Feb/2023:06:01:42 +0100] ""POST / HTTP/1.1"" 200 207 ""https://example.com/"" ""curl/7.54.0""
+
+Is there any way to block this?
+
+Could I do that through htaccess?
+And how?
+Or by inserting a PHP script in my WordPress header?
+
+
+**Assistant:**
+Do not trust the User-Agent header; the circumvention is as easy as the protection. Even with cURL it is possible to change the header with a single command line option.
+curl -A ""Mozilla/5.0 (...) ...""
+curl --user-agent ""Mozilla/5.0 (...) ...""
+curl -H ""User-Agent: Mozilla/5.0 (...) ..."""
+273688,['ips and ids'],"**User:**
+How to detect a malware which is fragmented across multiple packets How can we detect a malware which is fragmented across many packets , do we have to do some prefix /suffix matching kind of approach?
+Does tools like snort,Suricata support this ?
+
+**Assistant:**
+If some information (like malware) is spread across multiple packets then the obvious way to detect this would be to reassemble the traffic like the endpoint of the connection would do. Modern detection systems support such reassembling. Of course this comes with a cost in memory and loss of performance since more information need to be stored and processed. And it is also possible to trick a system that passively watches the packets into reassembling packets differently than the endpoint system would do, like with overlapping segments, packets with different TTL or similar. This way the monitoring system will see different traffic than the endpoint, which allows bypassing analysis. For a more reliable analysis one can use application layer gateways (also called application proxies), which fully terminate the TCP connections from one peer and create new ones to the other peer. This implicitly normalizes the traffic at the transport layer which makes packet level tricks impossible. It also makes sanitizing the traffic at the application layer possible. Unfortunately it also comes with even more costs and less performance than systems relying on packet reassembly."

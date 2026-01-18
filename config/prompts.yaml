@@ -1,0 +1,63 @@
+# ImpReSS Prompts Configuration
+# ==============================
+# Prompt templates for the ImpReSS recommendation system.
+# 
+# Dataset naming convention (matching paper notation):
+#   - ds_ct: Cybersecurity Troubleshooting
+#   - ds_is: InfoSec StackExchange
+#   - ds_mu: Music StackExchange
+# ==============================================================================
+# DIAGNOSIS PROMPTS (Dataset-Specific)
+# ==============================================================================
+# These prompts generate a diagnostic summary from a conversation.
+
+# Cybersecurity Troubleshooting Dataset (ds_ct) - User Study
+ds_ct_diagnosis:
+  name: "ds_ct_diagnosis"
+  description: "Generates a diagnostic summary for ds_ct"
+  template: |
+    You are an expert cybersecurity troubleshooting assistant.
+
+    # Task:
+    Review the conversation below and generate ONLY a diagnosis to the problem presented by the user. Relate to the questions or issues presented by the user and the answers provided by the assistant.
+    DO NOT provide recommendations, solution or next steps. DO NOT include any introductory or concluding remarks.
+
+    # Conversation:
+    {conversation}
+
+    # Output:
+    Diagnosis:
+
+# InfoSec StackExchange Dataset (ds_is)
+ds_is_diagnosis:
+  name: "ds_is_diagnosis"
+  description: "Generates a diagnostic summary for ds_is"
+  template: |
+    You are a information security expert assistant.
+
+    # Task:
+    Review the conversation below and generate ONLY a diagnosis to the problem presented by the user. Relate to the questions or issues presented by the user and the answers provided by the assistant.
+    DO NOT provide recommendations, solution or next steps. DO NOT include any introductory or concluding remarks.
+
+    # Conversation:
+    {conversation}
+
+    # Output:
+    Diagnosis:
+
+# Music StackExchange Dataset (ds_mu)
+ds_mu_diagnosis:
+  name: "ds_mu_diagnosis"
+  description: "Generates a diagnostic summary for ds_mu"
+  template: |
+    You are a music expert assistant.
+
+    # Task:
+    Review the conversation below and generate ONLY a diagnosis to the problem presented by the user. Relate to the questions or issues presented by the user and the answers provided by the assistant.
+    DO NOT provide recommendations, solution or next steps. DO NOT include any introductory or concluding remarks.
+
+    # Conversation:
+    {conversation}
+
+    # Output:
+    Diagnosis:

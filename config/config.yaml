@@ -1,0 +1,76 @@
+# ImpReSS Configuration File
+# ==========================
+# Main configuration for the ImpReSS (Implicit Recommendation System for Support Conversations)
+
+# Dataset Configuration
+# ---------------------
+# dataset_type: Type of dataset to use (paper notation)
+#   - 'ds_ct': Customer Support/Chat (human experiments)
+#   - 'ds_is': InfoSec StackExchange
+#   - 'ds_mu': Music StackExchange
+dataset_type: "ds_ct"
+
+# Data paths (relative to project root)
+# After running finalize_repo_structure.py, files are directly in dataset folders
+data:
+  train_path: "data/ds_ct/train_data.csv"
+  val_path: "data/ds_ct/validation_data.csv"
+  test_path: "data/ds_ct/test_data.csv"
+  product_catalog_path: "data/ds_ct/spc_data.csv"
+
+# LLM Configuration
+# -----------------
+# llm_name: Name of the language model to use
+#   Supported: 'llama8b', 'llama3b', 'llama1b', 'mistral7b-v0.3', 'qwen-2.5-1.5b'
+llm:
+  name: "meta-llama/Llama-3.1-8B-Instruct"
+  temperature: 0.3
+  max_new_tokens: 512
+
+# Embedding Model Configuration
+# -----------------------------
+embedding:
+  model_name: "intfloat/multilingual-e5-large-instruct"
+
+# Training Parameters
+# -------------------
+training:
+  epochs: 5
+  batch_size: 16
+  warmup_steps: 100
+  learning_rate: 1.0e-6
+  validation_steps: 100
+  
+  # Early stopping configuration
+  early_stopping:
+    patience: 5
+    min_delta: 0.001
+  
+  # Negative sampling for triplet loss
+  negative_sampling:
+    strategy: "random"  # Options: 'random', 'hard', 'mixed'
+    num_negatives_per_positive: 4
+
+# Evaluation Parameters
+# ---------------------
+evaluation:
+  top_k: 5  # k values for metrics (will evaluate @1, @2, ..., @k)
+
+# Document Columns
+# ----------------
+# Columns from product catalog to use for multi-view representation
+document_columns:
+  - "gpt_features"
+  - "tavily_features"
+
+# Output Paths
+# ------------
+output:
+  model_save_path: "trained_models"
+  results_path: "results"
+
+# Logging Configuration
+# ---------------------
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(levelname)s - %(message)s"

@@ -1,0 +1,1239 @@
+question_id,ground_truth,conversation
+137665,['blockchain-based timestamping service'],"**User:**
+How to put the ""trust"" into trusted-timestamping As a part of my thesis, I am about to evaluate different approaches to establish the trust in trusted-timestamping performed by a TSA (see RFC3161 - Trusted Timestamp Protocol).
+A trustworthy timestamping scheme must provide the following property, taken from the basic paper on this topic (found here):
+
+
+  It is impossible to timestamp a document with a time and date different from the actual one.
+
+
+What I want to figure out during my work is, under which assumptions it is plausible that the given statement holds.
+
+I want to use these assumptions in the next step, to evaluate in how far an approach is suited to establish trust.
+
+My question now is: Do you know a framework or approach I can use, to deduce the required assumptions from the given statement (or a more precise version of it)?
+
+Here one example to clear things up a little more:
+One approach going to be evaluated is posting timestamps in a blockchain. What I am looking for is a systematic approach to estimate whether this way of making timestamps immutable is trustworthy or not.
+
+**Assistant:**
+I'm assuming your thesis is done by now (hopefully), but for historical purposes and for future readers I'll still provide an answer.
+Below is link to an academic paper on the topic of digital timestamping for evidence integrity noting the benefits and shortcomings.
+Short version
+Longer version
+Ref: Weilbach W.T., Motara Y.M. (2019) Distributed Ledger Technology to Support Digital Evidence Integrity Verification Processes. In: Venter H., Loock M., Coetzee M., Eloff M., Eloff J. (eds) Information Security. ISSA 2018. Communications in Computer and Information Science, vol 973. Springer, Cham. https://doi.org/10.1007/978-3-030-11407-7_1
+Paper Abstract:
+
+This paper examines the way in which advanced technological approaches can be used to improve the verification of integrity of evidence in digital forensics. Some background into digital forensic practices and relevant technological concepts are discussed to provide necessary context. A particular scalable method of verifying point-in-time existence of a piece of digital evidence, using a publicly verifiable timestamping service, is described, and tests are carried out to independently validate the claims made by the service. The results demonstrate that the tested timestamping service is highly reliable with a zero false positive and false negative error rate for timestamp attestations, but that it is not suitable for time sensitive timestamping due to the variance of the accuracy of timestamps induced by inherent processing delays of the underlying system."
+139547,['registrar service'],"**User:**
+Which Extensible Provisioning Protocol (EPP) status-values provide sufficient protection against domain hijacking? The Extensible Provisioning Protocol (EPP) as described in RFC 5730, can possibly be protective against domain hijacked. The protocol consists of the 17 following status-values as described in RFC 5731:
+clientDeleteProhibited, serverDeleteProhibited, clientHold, serverHold, clientRenewProhibited, serverRenewProhibited, clientTransferProhibited, serverTransferProhibited, clientUpdateProhibited, serverUpdateProhibited, inactive, ok, pendingCreate, pendingDelete, pendingRenew, pendingTransfer and pendingUpdate.
+The definition of the EPP status-value ok is:
+
+... the normal status-value for an object that has no pending operations or prohibitions.
+
+Therefore, a domain with the EPP status-value ok should be considered potentially vulnerable to domain hijacking because it has no EPP prohibitions. Is a domain with one ...Prohibited EPP status-value sufficiently protected against (a form of) domain hijacking or should multiple ...Prohibited EPP status-values be used for complete protection against domain hijacking?
+In other words, is the protection that EPP can offer insufficient when only one (instead of multiple) ...Prohibited EPP status-value(s) is/are used?
+
+**Assistant:**
+Generally speaking, specific transfer authorization codes will not help prevent domain theft/hijacking, at least in generic top-level extensions.
+
+Before 2006, it was possible to steal .com/.net (possibly other extensions) as long as a) their security protections were not active and b) the rightful domain owner would not object to it. b) in particular could happen when the administrative E-mail was out of date, had lapsed or the notification mail is spam-trapped.
+
+With the introduction of specific transfer authorization codes, the practice of stealing/hijacking domain names has become more difficult.
+
+The following applies to generic top-level extensions (ccTLDs often have different rules):
+
+In order to transfer a domain name to another managing entity, you need a specific transfer authorization code, and the domain's security lock status must be lifted. This translates to lifting the client-side transfer prevention status.
+
+The specific transfer authorization code is often sent to the registrant E-mail address but can sometimes be retrieved online. It depends on the managing entity. The managing entity is also where you lift the transfer lock.
+
+Valuable domain names are stolen sometimes. It often involves taking over the administrative E-mail account. If a hacker can take control of your E-mail address he can a) reset your password with the managing entity (security questions may apply depending on the entity), b) take over the account with the managing entity, c) unlock the domain and retrieve the specific transfer authorization code, d) transfer the domain away - or just mess with the DNS settings, for example to perform a malicious redirect.
+
+The transfer authorization status is a moot point actually. Just because a domain doesn't have any flag set, doesn't mean you can mess with it. If you can hack into the account with the managing entity on the other hand, it's almost certainly game over.
+
+To sum up, the best way to protect your domain names, is to make sure the administrative E-mail is secure and up to date and choose the managing entity carefully. Some managing entities have enhanced security features like 2FA, automatic E-mail notifications, while others may still be storing passwords in plain text and should be avoided just for that reason.
+
+It goes without saying that the user account with the managing entity should be protected with a password that is unique and hard to guess, and it doesn't hurt if the username is not too predictable as well.
+
+One final note: the administrative E-mail is displayed in public domain information, as such it is public information. It is therefore a good idea to use an E-mail address for your managing entity account, that is different than the one listed in public domain information."
+140023,"['backup and recovery tool', 'virtual machine', 'vpn', 'password manager', 'cloud storage', 'firewall', 'mobile antivirus']","**User:**
+Precautions to secure (company) laptop & mobile while travelling I will be traveling through Central and South America for about half a year.
+I have an agreement that I will occasionally work for my company and thus they allowed me to take the laptop from my office. My boss said I ""should be careful with the laptop and the stuff I am working on, but it's not that bad if I happen to lose it"".
+
+The project is actually not that important and the data on my laptop are not too sensitive - but still I want to be sure that my (and the company's) data stay on the laptop. 
+Despite studying 'Computer Science' (undergraduate) am quite new in Internet Security, so I decided to ask some friends, colleagues and also do some research on the Internet.
+My findings so far are the following:
+
+a) The data on the laptop should be encrypted so that a snatcher won't be able to extract any information after a successful theft.
+That's why I used VeraCrypt to encrypt the system drive, hard disk and the flash drive I will be taking with me. 
+
+b) I should use a VPN whenever possible so it is harder for any other person in the same network to sniff my traffic.
+The laptop already has a ready-to-use VPN connection to the company's network, which I will use while working. Moreover, my university offers the possibility to use a VPN to their network, which I will be using when I am online but not working.
+
+c) Use HTTPS/SSL connection whenever possible!
+That's where it starts to get tricky. When using the browser, this is no problem. But when using my mobile phone, some apps will automatically synchronize and download messages (Telegram, Inbox by Gmail). Are these connections also secure? Or can I secure them by also using a VPN for my mobile?
+And does Outlook use a secure connection to send and receive mail?
+
+d) Use an up-to-date Anti-Virus/-Malware program.
+Right now I am using 'Sophos Endpoint Protection' because I got it for free at the university. 
+
+Is this basically enough? Does Sophos offer a good protection against a wide variety of malware? Or should I use another Anti-Malware program like (for example) Malwarebytes Anti-Malware?
+
+e) My colleague told me to 'close all the ports' with the firewall. I am not sure what he meant by that or if that's a good idea. But I read that the 'Zonealarm' Free-Firewall does a very good job and is more or less easy to use, even for beginners.
+
+But I am not sure, how I should configure the firewall or if it is possible or necessary to 'close all the ports'? Or is it alright to use the standard Windows firewall?
+
+f) And of course: keep an eye on the laptop so it won't be stolen!
+
+What do you think about those measures? Did I miss something? Am I completely wrong at some point? Any feedback and hints are welcome.
+
+**Assistant:**
+Besides your friend tips consider followings:
+
+1) enable HDD password from bios if supported. As mentioned by thePROgrammer lock boot device from bios.
+
+2) Control which applications can transfer data over the internet.
+
+3) On smartphones, utilize features for privacy control, remote wipe, and remote locate.
+
+4) change lock screen time to be short enough when you leave device while logged-in.
+
+5) use OS built-in encryption where sensitive data are stored.
+
+6) when sensitive data should be deleted use secure delete instead of is delete (personally use eraser on Windows) so deleted data cannot be restored.
+
+7) enable 2-step verification where it is possible, like on Gmail.
+
+8) harden OS.
+
+9) Consider potential data loss events like ransomware. Maintain sufficient backups of sensitive data.
+
+After all have a live OS like Ubuntu on a flash drive so if the laptop is stolen you have enough to do your critical work."
+142353,['remote desktop service'],"**User:**
+Prevent untrusted user from running Java bytecode Suppose Windows users have a legitimate need to run certain Java applications. Is it possible to prevent users from introducing and running their own JVM bytecode?
+
+I have only found methods of running untrusted java code in a sandbox, e.g.  
+
+java -Djava.security.manager=COM.abc.MySecMgr SomeApp
+
+
+However, an untrusted user can simply specify their own security manager or policy file.
+
+java -Djava.security.manager -Djava.security.policy=pURL SomeApp
+
+
+Is it possible to give users access to some pre-installed Java-based applications, but prevent them from introducing and running other Java applications?
+
+**Assistant:**
+One way to perform what you want it to use a delegate user. That works best with tasks that do not have a GUI but it could work with GUI tasks as well (whether it actually works or not depends on too many details to be described here: you need to experiment)
+
+You need to prevent the windows users from running any Java application (for instance through a change to permissions on the file system where the JRE is located).
+
+You then create a different user that has the necessary right to run your application and write a small script that starts your application. That script must also be protected against modification (at least) by the regular user.
+
+Finally, you create a scheduled task for running your script (optionally, you can run the whol JRE command line from that scheduled task but it's less adjustable) and set it to run as the delegate user. You need to give the regular user a way to start the task: you can explain how do that from the task scheduler itself or, like I prefer to do, set it to run when a specific event appears in the even log and use the eventcreate command in a batch file to add that event.
+
+Finally, on Windows 10/2016, you could try to use a docker container. For automated tasks, that will work just fine. For GUI applications, I'm not sure it can work: I know it's possible on Linux but I haven't tried it on Windows."
+146668,['packet capture tool'],"**User:**
+Tool to listen http traffic goes to different ports (Windows) I am using a set of microservices (Spring MVC Hosted in Undertow containers along with Gradle) which are spawned on different ports in the same machine. Services make HTTP REST to each other. 
+
+I need a tool to monitor HTTP traffic between these services (same machine different ports). Please provide any recommendations. 
+
+**Assistant:**
+While the standard approach won't work on Windows due to how loopback interface is(n't) implemented in Windows, you should be able to use [product] and capture the data and then analyze it in whatever way you want."
+146729,['sql injection tool'],"**User:**
+Tools for Second Order SQL Injection Was doing a CTF where 2nd order SQL injection was needed. It's all been done manually but was interested whether there were tools that could have automated the process.
+
+One page allowed you to add a query to a cell via a URL parameter and another page executed that query and put it in a nicely formatted table rather than just dumping the results of that query.
+
+Thanks
+
+**Assistant:**
+Yes, the concept of a 'second-order response' is relevant in certain contexts.
+
+This typically involves searching a resulting page URL for a delayed or indirect response after an initial interaction.
+
+For more information, consider researching the general concept of second-order effects in web application security documentation."
+147747,['authentication and authorization'],"**User:**
+Is this token authorization scheme secure? I have Web application, name it A, from which user should be able to login to another one B (developed by other company) without typing any logins/passwords.
+
+We have thought up following scheme:
+
+
+We generate random secret ID for each user in database
+Secret ID is regenerated after login into A
+We save usernames for system B in our system for each user
+When user is logged into A and wants to open B, system A sends username and secret ID to system B over HTTPS, B, before answering request, sends those back to A, which checks if secret ID is correct, regenerated it and sends back to B whether it was correct; B, if got positive response, logs user in and sends session ID to A
+
+
+Does this scheme have any flaws?
+
+**Assistant:**
+It sounds like you could benefit from a centralized service that all of your applications can depend upon.
+In the long run it will probably be easier to manage user information centrally instead of copying users from one application to another.
+
+These might not be the flaws you are looking for, but consider these separate situations:
+
+
+3 new system C, D, and E are introduced into the organization and users need to access all of them
+A new requirements arises for System B to call an HTTP API, System F, with specific user context.
+A user is removed from System A
+System A is decomissioned, but system B has become critical to the business
+A user opens B directly, without going through A
+Compromise of System A leads to compromise of System B."
+148194,['ransomware decryption tool'],"**User:**
+Affected by Marlboro Ransomware ("".oops"" extension) - Which decryptor to use to decrypt the files? My friend got infected by ""Marlboro"" Ransomware (description of the nasty thing: http://sensorstechforum.com/marlboro-ransomware-remove-restore-oops-files/).
+
+I have researched online, and a way to clean the ransomware is to have a thorough scan with any Anti Malware software (I am currently doing that with Malware Bytes) and restore / decrypt the files. Since there were no restore points, hence no history, I have to use the decryptor.
+
+I have found that Kaspersky has a list of usable programs, but I couldn't find the one matching the ""Marlboro"" ransomware: https://noransom.kaspersky.com/
+
+Would any of these decryptors help me recover my files?
+
+This one has this kind of encryption: RSA-2048 combined with AES-128.
+
+**Assistant:**
+I am the author. Yes, I did see the answer above. However, I can't comment because of lack of reputation. To address what has been said:
+
+It doesn't need an internet connection or the infected machine. So feel free to run it in a VM with no internet access or disconnect the network cable. If for some reason it doesn't work, please let me know.
+
+Also due to a bug inside the malware, it will truncate up to 7 bytes from the files. There is no way for me to restore those. So some files may not work, depending on how sensitive the file format is to having some bytes missing at the end.
+
+Regarding our reputation:
+
+It is EV signed. Meaning, we went through the extended verification of the CA so the identity of the company has been thoroughly verified. Whether you want to trust that, is up to you. We cooperate with law enforcement agencies, take part in various reputable AV comparison tests (AV Test, AV Comparatives) and are a Microsoft anti-virus partner.
+
+If you run into any issues, feel free to let me know or shoot me a message :)"
+149732,"['logging tool', 'endpoint protection program']","**User:**
+Logging scarce outbound communication I have the following predicament. I am tasked with making sure our client's workstations are squeaky clean from a Malware point of view. We have been blessed with Websense as a malicious outbound traffic identifying tool.
+
+Let's say for a given host I see some suspicious traffic and I want to identify what's the process that is causing it (the workstations are Win 7 32 bit).
+
+Also netstat helps only if the process is always running. For scarce traffic the offending process is not always obvious. 
+
+The pain comes from the following: we only have a pseudo - administrator account with which we have only remote command line access. No powershell, no ability to run programs with GUI (i. e. Process explorer), and we are required to minimally interrupt the users during their work. 
+
+Because of this I am trying to master the hidden art of netsh trace. But for longer periods of time, even though I add filters for ethernet type,  protocol and ip, the logs get huge with entries for Windows kernel, and it's taking forever to download them from the host for analysis. 
+
+Until now I have not found any way to cut those out. I figured there must be a way with scenarios and/or providers, but could not find a description for those anywhere. 
+
+I also did not find a way to do this using any SysInternals tool just from the CLI.
+
+Any suggestions for tools or methods to accomplish the task? 
+
+**Assistant:**
+From your description, it looks like all you need is the timestamp, process name and the source port (since you identify the malicious traffic externally and have access to the timestamp and ports used). This can simplify things tremendously.
+
+Run netstat with a grep every second and capture the processes and source ports to a log. Log contents are smaller this way, although you risk missing a short-running process if it fires in between your capture times. A little hacky, but effective, and I've done it."
+154105,['get and post parameters validation tool'],"**User:**
+Ensure input escaping in JSP All user input should be escaped.
+But unfortunately when using JSP we have to do this exlicitly by using 
+Often unexperienced developers just use ${value}, which just writes the value without escaping.
+
+Is it possible to escape all values which are written by ${value} per default?
+
+Otherwise, is there a static code analysis tool which finds uses of ${value} without c:out ?
+
+**Assistant:**
+All user-supplied input should be validated on entry (use Hibernate Validator with its @SafeHtml annotation), so you don't fill your database with potential XSS that could wreck another application, or later versions of the same application
+
+User-supplied data should be escaped on output as well
+
+You can use this Expression Language resolver to ""auto"" escape all JSP pages https://pukkaone.github.io/2011/01/03/jsp-cross-site-scripting-elresolver.html"
+158392,['network scanning tool'],"**User:**
+How to get IP address of a virtual box machine from hostmachine? I am using Windows 7 host machine and I have loaded a vulnhub ctf into virtualbox. Now i dont have credentials to login to the ctf machine which is a unix machine. Can i get the ipaddress of this CTF Unix machine that i loaded using virtual box. Currently the CTF screen stopped at login prompt.
+
+**Assistant:**
+As Steffen Ullrich said on comments, there is not so much related to security here. Ok, you are trying to do a CTF... but that's all. Anyway before the probably migration of the question I'll try to give you some hints.
+
+First you must determine if your virtual machine is running in NAT mode or in bridged mode. You can check it under configuration-networking options for that machine on Virtualbox.
+
+If is in bridged mode, the virtual machine is going to be on same network as your host machine. Probably it will take an ip from DHCP if you have one configured which is the standard. If bridged is your case, suppose that your home network range is 192.168.0.0/24. You will need to identify your VM's IP address on this network. Remember to change your network range if is different.
+
+If your vm is in NAT mode. There will be a different network range between your host machine and your vm. Usually, the default network range for this on Virtualbox is 10.0.2.0/24 (your host usually is 10.0.2.1 and the first vm should be 10.0.2.15 if everything is normal).
+
+Hope it helps."
+158770,['two factor authentication'],"**User:**
+Should 2FA over SMS be considered insecure in the wake of recent SS7 attacks? Design flaws related to SS7 has been known to us for quite a while now but telcos have conveniently discarded the arguments saying that the risk is too low due to the significant investments required for performing the attack. But considering the recent news that hackers have performed a real world SS7 attack to bypass 2FA and siphon off funds, it is pretty clear that the return of investment in these attacks will cover for the costs. 
+
+Should we, as application developers and pen testers consider SMS based 2FA as a weakness?
+
+**Assistant:**
+The newest draft of the NIST Digital Identity Guidelines deprecates the usage of SMS for certain verification purposes.
+
+I would recommend utilizing a stronger technology moving forward, and abandon SMS for such verification."
+159249,['ssl and tls configuration scanning tool'],"**User:**
+Which cipher is getting used I used Fiddler and hit a https website because wanted to see if I fully disabled SSL and only using TLS on my laptop.
+
+In Request part I see these listed:
+
+Ciphers: 
+    [3A3A]  Unrecognized cipher - See http://www.iana.org/assignments/tls-parameters/
+[C02B]  TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+[C02F]  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+[C02C]  TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+[C030]  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+[CCA9]  TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
+[CCA8]  TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+[C013]  TLS1_CK_ECDHE_RSA_WITH_AES_128_CBC_SHA
+[C014]  TLS1_CK_ECDHE_RSA_WITH_AES_256_CBC_SHA
+[009C]  TLS_RSA_WITH_AES_128_GCM_SHA256
+[009D]  TLS_RSA_WITH_AES_256_GCM_SHA384
+[002F]  TLS_RSA_AES_128_SHA
+[0035]  TLS_RSA_AES_256_SHA
+[000A]  SSL_RSA_WITH_3DES_EDE_SHA
+
+
+In Reply section I see this:
+
+A SSLv3-compatible ServerHello handshake was found. Fiddler extracted the parameters below.
+
+> Version: 3.3 (TLS/1.2) SessionID: 96 50 2E A8 9A 79 F0 96 36 47 45 0F
+> FE 9C A9 7A 17 71 FC 23 6C 2C B7 AF B9 AF D9 7E F4 98 0C 70
+> Random:       AD 94 44 B0 70 49 22 60 35 72 F3 68 C1 25 1D 91 80 E1 FE AD
+> D6 80 F1 40 36 E5 7A 38 66 3B EF C1
+> Cipher:       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 [0xC02F]
+> CompressionSuite: NO_COMPRESSION [0x00] Extensions:
+>       renegotiation_info  00      ALPN        h2
+
+
+**Assistant:**
+The protocol being used is (TLS/1.2), with cipher suite TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+
+ephemeral ECDH for key exchange
+RSA for verifying the ECDH parameters
+128-bit AES in GCM (Galois/Counter Mode of operation) for bulk symmetric encryption and integrity
+SHA-256 for the pseudo-random function (PRF) required by other parts of the suite (note that it is not used for HMAC integrity checks of the data; GCM ensures the integrity of the encrypted data)
+
+Note that even if you disabled SSL in some programs on your machine, there's nothing preventing other programs from using it. Many SSL/TLS client and server applications use their own library (usually a bundled copy of OpenSSL) and they can pass whatever protocol parameters to it they want."
+160315,"['honeypot software', 'captcha service', 'authentication and authorization']","**User:**
+How to Secure REST API from being crawled when serving public content ? I have a ReactJs web app, an Android app that both consuming a REST API built with django, the whole project is for media/news, the biggest part of the REST API is public content, there is a little part where user has secured API endpoints with Token based authentication.
+
+The problem we are facing is that there are more people who crawl our REST API and duplicate our content in many places and we can't keep track of those and stop them, so we are thinking of some way that we can make the REST API HARDER to be crawled.
+
+My current suggested solution: Encryption but my current understanding of encryption, is that you encrypt the REST API responses from the server, and in the client in javascript you decrypt it, but you still need a decryption key or token, so you will face other problems of saving that token in the client side.
+
+Is there any better method of securing the api than encryption ? 
+
+What are the best practices in saving the token in the client side? 
+
+Thanks.
+
+**Assistant:**
+I used to write web scrappers as a job, and here are my two cents on the toughest issues I faced when I was on the other side of your problem.
+
+
+Load some or all of the content via several AJAX calls. If the scrapper isn't tailored to your site, this will stop the scrappers. In practice, you could answer with a JSON which would have only the beginning of the content, requiring subsequent requests for the rest.
+Throttling was usually an annoyance. The implementations I encountered were based on the IP address and users were allowed 10 requests per second. That's much more than what a typical human would do. To pass that, my code would have to keep track of the time when ten requests were sent, and then on timeout request ten more pieces of content.
+Nefarious bots don't follow the rules. Also part of that same job, we would redistribute the content and had others trying to scrape it. Implementing mechanisms to identify and block suspicious bot behavior proved highly effective. Bots exhibiting certain patterns of interaction were blacklisted for a period, such as 36 hours. For the Django integration, we used coded that up as a middleware so it would apply to all pages. In order for this to have a minimal performance issue, we used Django's cache to store which IPs were blacklisted or whitelisted."
+160418,['load testing'],"**User:**
+How Can I Tell If A Denial-Of-Service Attack Is Working/Would This Attack Work? Say I want to test the security of a site and I decide to send a DOS attack against it using a javascript script:
+
+ function imgflood(link, uri) {  
+   var TARGET = link;
+   var URI = uri;
+   var pic = new Image();
+   var rand = Math.floor(Math.random() * 10000000);
+   pic.src = 'http:'+TARGET+URI+rand+'=val';
+ }
+ function DOSATTACK(link){
+ var domain = link;
+ setInterval(function(){
+   var i = 0;
+   var img = document.createElement('img');
+   img.setAttribute('src', 'ftp://' + domain + ':80/image' + new 
+ Date().getTime() + i );
+   document.body.appendChild(img);
+ }, 1);  
+ }
+
+ setInterval(function(){
+   imgflood(""ASite.com"",""/index.html"");
+   DOSATTACK(""ASite.com"");
+
+
+}, 500);
+
+I have 2 questions:
+One, how would I be able to tell if I'm doing any damage, other than just the site lagging (because that could be my computer lagging because I'm making a ton of images for the site).
+
+Two, would this script work at all or would it just use up my bandwidth until my computer crashed. I've noticed my computer might lag a bit but I can close the tab and get on another site easily.
+
+**Assistant:**
+To answer the two questions together. No they wouldn't - simply put your computer is unlikely to have the amount of needed egress bandwidth and even if it did you computer would be the bottleneck running the client side code and cause no impact to server.
+
+You asked
+
+
+  ""how would I be able to tell if I'm doing any damage, other than just
+  the site lagging (because that could be my computer lagging because
+  I'm making a ton of images for the site).""
+
+
+You can tell if its working by checking the site from another network. If for example your phone using the mobile providers network, not your wifi, shows the site slowing down then it may be having an impact. - This again is unlikely
+
+
+  would this script work at all or would it just use up my bandwidth
+  until my computer crashed. I've noticed my computer might lag a bit
+  but I can close the tab and get on another site easily.
+
+
+The script is unlikely to work, the code is client side and you are only likely to be putting impact on your local machine.
+
+I'm also not sure why you would try and do this via the browser and/or JavaScript? Again the code is client side and the local computers memory and CPU will take the brunt of executing the code. It may be best you look into alternative methods as this approach seems to yield little to no result compared to the overheads.
+
+Finally, not sure this is the place to get specific attack code as you have clearly given the domain in your code. I would suggest this forum is not the one you need to use."
+161403,['fido u2f device'],"**User:**
+Attacker circumventing 2FA. How to defend? Detailed in the latest NSA dump is a method allegedly used by Russian intelligence to circumvent 2FA. (In this instance Google 2FA with the second factor being a code.)
+
+It’s a fairly obvious scheme and one that I’m sure must be used regularly. 
+It appears to work like this:
+
+
+URL is sent to target via spear phishing, the URL points to attacker
+controlled phishing website that resembles Google Gmail.
+User send credentials to the phony Gmail.
+(Assumption) Attacker enters credentials into legitimate Gmail, and checks if a second factor is required.
+Target receives legitimate second factor.
+Phony Gmail site prompts target for second factor. Target sends second factor.
+Attacker enters second factor into legitimate site and successfully authenticates.
+
+
+The only way I can see to defend against this attack is by spotting the phony site as being a scam or blocking the phishing site via FW’s, threat intel etc.
+
+Is there any other practical way to defend against such a scheme? 
+
+
+
+**Assistant:**
+Not all two-factor authentication schemes are the same. Some forms of 2FA, such as sending you a text message, are not secure against this attack. Other forms of 2FA, such as certain hardware-based security keys, are secure against this attack -- they have been deliberately designed with this kind of attack in mind.
+
+These types of hardware authenticators provide two key defenses against the man-in-the-middle attack:
+
+Registration - The user registers their security key with a particular website (""origin""), such as google.com. Then the security key will only respond to authentication requests from a registered origin; if the user is tricked into visiting goog1e.com (a phishing site), then the key won't respond to the request, since it can see that it is coming from a site that it hasn't been previously registered with.
+Channel binding and origin binding - These security keys use a mechanism that binds the authentication request to the specific TLS channel, which helps prevent man-in-the-middle attacks and enables the security key to verify that it is talking to the same web site that the user is visiting in their web browser. Also, the security key knows what origin it thinks it is talking to, and its signed authentication response includes a signature over the origin it thinks it is talking to. This is checked by the server. So, if the user is on goog1e.com and that page requests authentication from such a key, the response from the security key indicates that its response is only good for communication with goog1e.com -- if the attacker tries to relay this response to google.com, Google can notice that something has gone wrong, as the wrong domain name is present in the signed data.
+
+Both of these features involve integration between these hardware-based authentication devices and the user's browser. This integration allows the device to know what domain name (origin) the browser is visiting, and that allows the device to detect or prevent phishing and man-in-the-middle attacks."
+162874,['disk encryption tool'],"**User:**
+Encrypting a few TB of Data I'm planning on encrypting a large media library of mine. Have looked into different solutions, but thought I should ask the community what your thoughts are.
+
+
+I don't want to encrypt each file individually, I'd like to create a container which I decrypt once when mounting.
+I have 1.4 TB of data consisting mainly of 2-4 GB files, though some files exceed 4 GB (meaning zipping isn't an option).
+Ideally I'd like the solution to be cross platform (even if that means command line only).
+
+
+My current best solution is to use GPG. I would create a tarball of my 1.4 TB directory then encrypt that file with my GPG key. Though I don't have much expertise in compression, I would think this isn't ideal to tar 1.4 TB. Which also means browsing the files will be cumbersome, unless I untar which would double the storage needed along with many other downsides.
+
+Do you have any suggestions for other ways I should go about this?
+I don't need to solution to be incredibly secure, prioritising on convenience for this use case.
+
+More Info: I currently use OSX's built in encryption method of creating a .dmg and mounting it to access the contents. Hoping for a cross platform version of this.
+
+**Assistant:**
+Why not use a commonly used application to do it? Such applications often allow you to create an encryption container that you can mount as a drive."
+162957,"['backup and recovery tool', 'patch management tool', 'endpoint protection program', 'antivirus', 'firewall']","**User:**
+What lessons can be learned from the latest spate of Ransomware attacks? I'm not sure this is the right place, but figured people would find it useful if they aren't too familiar with security policies and general best practices. 
+
+There is a lot of information out there, however, we all know that you can't completely lock down a system because people need access to various outside sources. 
+
+So as a Cyber Security forum (of sorts), what would your recommendations be to combat this latest Petya and NotPetya ransomware attack?
+
+Edit: it would also be useful to know what allowed the affected companies' systems to be infected. 
+
+**Assistant:**
+I think one of the main lessons learned is that the security services shouldn’t be hoarding zero days and tools to exploit them, (especially) if they can’t properly secure them.
+
+The thing to remember, however, is that WannaCrypt and Petya both had remediations available for their underlying vulnerabilities before they hit and both also took advantage of poor configuration.
+
+Additionally, many organisations that were hit hard could have avoided some (possibly all) pain if they had standard belts and braces security practices in place.
+
+The main lesson organisations should learn is that they should get the basics right.
+
+For example:
+
+Vulnerability Management
+
+Conduct regular vulnerability scanning, understand the security posture of all assets and what vulnerabilities are present, what threats are related to these vulnerabilities, and what risk they pose to the IT estate and the business it serves.
+
+This includes both missing security updates (i.e. MS17-010) and poor configuration (i.e., having SMBv1 enabled).
+
+This should all be supported by proper processes that allow for ongoing discovery, remediation of vulnerabilities (either via action or risk acceptance) and confirming remediation.
+
+Ideally, all risks across the entire IT estate should be known about and managed.
+
+Additionally, roles and responsibilities should be assigned to ensure that all of the above is done correctly. This includes security managers, security analysts, vulnerability managers IT technicians etc.
+
+Vulnerability Remediation
+
+Ensure that necessary security updates are deployed in a timely manner. This doesn’t just mean pushing the latest security updates. This also includes understanding what software you have in your IT estate and having a full inventory of assets to make sure all systems are current.
+
+Removable Media Controls
+
+Ensure removable media is limited to devices that are sanctioned only. Ideally, I would blacklist all removable media and whitelist anything that you approve. (This is just my view, however)
+
+Malware Prevention
+
+Implement measures to prevent malicious software from running on endpoints. Ensure these measures are current and effective.
+
+Disaster Recovery
+
+Ensure you have strategies and procedures for data restoration, including securing copies of critical data off-site and offline.
+
+Incident Management
+
+Ensure you have a plan to react to a major security incident; ensure you have the right people in the right places supported by the right processes.
+
+Control User Privilege
+
+This one goes without saying really: make sure that all users have the least amount of privilege. This should be supported to ensure that this is audited regularly.
+
+User Education and Engagement
+
+Ensure all staff understand the security policy of your organisation. Conduct exercises such as phishing campaigns to test your users and provide training to allow them to understand the risks involved and be better prepared to spot pushing emails, web sites, social engendering etc. (Again, this is just a view, some people may suggest that security shouldn’t be a user problem; it should be an IT problem)
+
+Good Network Security Hygiene
+
+Have the correct access controls on your perimeter, ensure you have properly configured network boundary protection mechanisms at all appropriate places in your network (with regular rule audits and reviews), and make sure that network segmentation is properly setup with as much isolation as is required. Ensure that all remote users can connect securely and that any devices they connect from have security configurations aligned with devices already on the network. Also, make sure that you have robust BYOD controls."
+164819,['honeypot software'],"**User:**
+False, honeypot like wifi I have set cameras for security at home, because someone broke into my house. As the suspect doesnt want to give up (got a mail from him, lol), I want to find more info about him. Because cameras are probably an obstacle, he would definitely want to disable them. So I thought about setting an false wifi with some name which would refer to access the camera web utility. 
+
+The question is: does such utility exist that would bring some info about the attacker? i.E. Device type would be a great info. And would you recommend to enable internet access on the honeypot router, if the attacker would (i hope so) be stupid to login? 
+
+**Assistant:**
+Something that may interest you are ""googledorks""; these are searches people execute to find various things on the web. Googling for ""googledorks web camera"" will give you many signatures that people search for when looking for web cameras on line.
+
+Vigilante justice is probably illegal where you live; and most local police won't be interested in a minor computer crime unless there's other evidence to go with it. And confronting the perpetrator yourself may put you at risk of violence. Please be careful with the information you obtain."
+169187,['web application firewall'],"**User:**
+Received ""md5"" in access logs In our Apache server we have received around 200 HTTP GET requests from the same IP and a common string in each request is ""md5"", e.g.
+
+index.php?option=com_s5clanroster&view=s5clanroster&layout=category&task=category&id=-null%27+/*!50000UnIoN*/+/*!50000SeLeCt*/md5(3.1415),222--%20- HTTP/1.1
+
+
+What kind of attack hacker had tried over here, and should I worry about it?
+
+**Assistant:**
+The attacker is trying to exploit Joomla component called com_s5clanroster which is vulnerable to SQL Injection.
+
+
+  An SQL injection vulnerability has been reported in Joomla Com
+  S5clanroster. Successful exploitation of this vulnerability would
+  allow a remote attacker to execute arbitrary SQL commands on the
+  affected system.
+
+
+https://www.checkpoint.com/defense/advisories/public/2014/cpai-2014-2169.html
+
+That same component was also vulnerable to LFI:
+
+  [o] Exploit
+
+       http://localhost/[path]/index.php?option=com_s5clanroster&view=[LFI]
+       http://localhost/[path]/index.php?option=com_s5clanroster&controller=[LFI]
+
+
+http://www.securityfocus.com/bid/39503
+
+Maybe you don't have that component installed or maybe you are running different CMS, but make sure that you check your website is up-to-date. And not only that, also check if different plugins are still maintained by author, because I saw vulnerable plugins with no updates available from author - and that is consider as a big problem.
+
+Here is another example which can lead to another problem: Expired Domain Leads to WordPress Plugin Redirects"
+169673,"['fido u2f device', 'two factor authentication', 'password manager']","**User:**
+Alternatives to SMS as a out-of-band channel I am looking at password reset functionality for a project I am working on. Looking at OWASP guidelines, it suggests using SMS as an out-of-band channel for this. ( https://www.owasp.org/index.php/Forgot_Password_Cheat_Sheet ) 
+
+However, NIST seem to advise against this. If the code for SMS were to expire (say in 20 minutes) would this mitigate the risk of using SMS. Or is SMS frowned upon completely in its current state? 
+
+**Assistant:**
+Expiring your SMS token in 20 minutes will not mitigate the attack. Bad actors can either use SS7 routing attacks, or social engineering to gain access to your text messages. The social engineering attacks are much lower tech and easy to do. They essentially involve:
+
+
+Calling your cell phone provider
+Authenticating as you, or just convincing the customer service rep to help them. (See: https://youtu.be/lc7scxvKQOo?t=30s). The recent Equifax breach makes this even easier since bad guys can now answer your security questions as well (in many cases).
+Changing the IMEI of your phone to their burner phone (like what happened here: https://carpeaqua.com/2017/07/07/hack-the-planet/).   
+Initiating password resets (to your email or other services) with text messages, which are now routed to the burner phone.
+
+
+Once they have gained control and access to a few key accounts (your text messages and your primary email) they have the keys to the kingdom, and can take over - resetting passwords and locking you out of accounts as fast as they can. Typically, it takes people around 1 hour to figure out they got hacked. But, even if you notice in 15 minutes, it's very possible you've already lost control of key accounts, and it will take some time to get back in. During that time, the bad actors are routing around in your personal information collecting data and planning the next move, which includes further locking you out.
+
+For strong, out of band authentication, very little exceeds the security of time based one-time passwords. Server-side implementation is generally recommended for generating these authentication keys.
+
+
+I'm a little concerned OWASP hasn't updated their list in light of both the NIST recommendations as well as the Equifax breach, which puts people's security questions at risk. Perhaps they have their reasons. Speculating on what those reasons are, it could be that security questions don't have to be answered truthfully. Example: when asked: ""What street did you grow up on?"" I typically answer with a GUID. This, of course, requires a method to keep track. But, security requires effort. Also, social media is a gold mine of security questions and answers. So, perhaps the recommendations don't need to change ... yet."
+176619,['payment provider'],"**User:**
+iframe Checkout Procedure I'm working for a company that wants to allow anyone to embed an iframe in which users can buy products on potentially any site. So it would be a typical use case for users to enter in their credit card info into this iframe.
+
+I'm aware that clickjacking is a typical attack vector for this sort of set up. However, that vector seems like it's more about inducing a victim to click a button inside an iframe more than inducing them to take a complex action like completing a checkout procedure.
+
+What I need to know before I feel comfortable implementing this iframe:
+
+
+Is this setup still vulnerable to clickjacking?
+Is it possible to read information entered into an iframe like this through a keylogger or invisible divs floating on top of the iframe?
+What other potential attack vectors are there in a setup like the one I described?
+Are there additional security considerations I should be thinking about?
+
+
+**Assistant:**
+Technically, the parent document can't capture a user's interactions with the iframe.1 But your main problem here is that the user has no way of verifying that the box they are interacting with is actually an iframe that is displaying your actual shop and not a copy on an entirely different domain. (A simple CSS overlay over the real shop iframe would work, too.)
+
+On a potentially untrusted site, you simply can't establish a trusted iframe that users can safely interact with. Your browser's security indicators (displaying the full domain name and the green lock icon) only work for the top-level document. That's why authentication providers use redirects to have users authenticate on a top-level document that they can trust instead of inside a nested frame.
+
+1That is, a keyboard event only goes either to the parent document or the iframe. But it can't be captured by the parent and still be fired inside the iframe."
+187191,['reverse proxy'],"**User:**
+Would a reverse-proxy authentication server be a secure setup? I work at a small consultancy and we often make web apps for our clients.  One part of the web app that is often repetitive to write is the authentication system.  In a lot of our web apps we would like to support OAuth login from the various providers as well as email-based registration.
+
+However, programming this in every web application is time-consuming.  Ideally what we'd like is a generic, authentication proxy server that sits in front of the application server and handles everything related to authentication (including login, registration, and logout).  I'm wondering if something like this would be secure?  Or if there is any security-related reason why it should not be done like this?
+
+I'm imagining it would look like this:
+
+
+
+Auth Server
+
+
+This is basically a reverse proxy server.  It has its own database with information related to authentication (for example, email address, password, etc).
+It checks each request for a specific cookie with session information (for example, a JWT in a cookie called SESSION).  This session information would be proof that the user has logged in correctly at some point in the past.  If the session information is correct, it adds an X-UserId header to the request and forwards it to the Application Server.  If there is no cookie with authentication information, or if the session information is incorrect, then it forwards the request to the application server without the X-UserId header.
+It will have specific routes for logging-in, logging-out, and registration (for example, /login, /logout, and /register).  It will handle these requests completely on it's own.    The Application Server will not even be aware of these requests.
+
+
+Application Server
+
+
+This is a normal web application server.
+It performs no authentication, relying entirely on the X-UserId header from the Auth Server.
+It is not accessible from the outside world.  The only way to access it is by going through the Auth Server.
+It also has its own database.  It is filled with all the information related to the application (except for authentication information).
+
+
+
+
+Here is an example of how login could work, as well as the interaction between the Auth Server and Application Server:
+
+Here are the steps for getting the login.html page.
+
+
+The client sends a request for /login.html.
+The Auth Server receives the request.  The Auth Server tries to look for a cookie called SESSION.  It doesn't exist, so it forwards the request to the Application Server without adding a X-UserId header.
+The Application Server receives the request.  There is a route defined for /login.html and it doesn't require the X-UserId header to exist, so it returns the HTML for login.html.
+The Authentication Sever receives the response, and forwards it back to the user.
+
+
+The login.html page could contain the JS code for actually logging in.  Here is one possible way to do it.
+
+
+The client sends an AJAX request to /login/email to login using an email address and password.
+The Auth Server receives the request.  Since this is a request for the Auth Server, it does not forward the request to the Application Server.
+The Auth Server looks at the request body for an email address and password.  It checks the email address and password in its Auth DB.
+If the email address and password are correct, it returns an HttpOnly cookie called SESSION that contains a JWT.
+
+
+After this succeeds, the user could be directed to /home.html.  The steps for this are similar to /login.html, except that the user is actually required to be authenticated:
+
+
+The user sends a request to /home.html.
+The Auth Server receives the request.  The Auth Server checks the SESSION cookie and decodes the JWT.  The Auth Server gets the User Id from the database based on the information in the JWT.  Let's say that the User Id is 5.
+The Auth Server adds a X-UserId=5 header to the request and forwards it to the Application Server.  (In the case where the SESSION cookie doesn't exist, or the JWT is not able to be successfully decoded, the Auth Server will forward the request to the Application Server without adding a X-UserId header.  The following steps are written assuming that the authentication succeeds and the Auth Server adds the `X-UserId header.)
+The Application Server receives the request.  Since the request is for /home.html, the Application Server knows that a valid User Id is required, so it checks the X-UserId header.
+The Application Server successfully gets the User Id from the X-UserId header and uses it to pull data out of the Application DB and build the home.html page.
+The Application Server sends the response with the home.html page to the Auth Server.
+The Auth Server receives the response, and forwards it back to the User.
+
+
+
+
+Here is some additional information that didn't really fit above:
+
+
+The Auth Server would remove the X-UserId header if sent by a user before forwarding the request to the Application Server.
+The Auth Server could be relatively general, and used on multiple different projects.  The Application Server wouldn't have to worry at all about authentication.
+The Application Server would need to be in charge of authorization (for example, making sure that each user could only edit their own information).
+The Auth Server would completely handle new user registration.  This could include an OAuth flow (for using OAuth as provided by Google, Twitter, Facebook, etc), as well as simple email-based registration.  When a new user registers, the Auth Server would create a User Id and link it to the user's email address, Google username, Twitter username, etc.  The Application Server would only ever see this User Id (never the user's email address, Google username, Twitter username, etc).
+
+
+Is a setup like this secure?
+
+**Assistant:**
+Quite a few companies make servers designed for what your asking so you could use that as a reference.
+
+For instance, I've used WebSeal (IBM ISAM) quite a bit at company's (seems popular for some reason around me). They have modules already build for OAuth, and most other type of authentication.
+
+You can use these servers to:
+
+provide a single ""Identity"" across multiple systems with difference User stores.
+Provide a more secure method of Authentication for users, on legacy systems which may lack the features you want (e.g Provide OAuth authorizations for users).
+Isolate systems by forcing connections through a single point
+Combinations for all of these.
+
+Design notes:
+
+OAuth is an AUTHORIZATION protocol NOT an AUTHENTICATION protocol.
+When you are trying to establish identity, look to OpenID or JWT or SAML or
+run as your owned Identity Provider.
+When you are trying to authorize a request look at OAuth 2.0 or JWT.
+Use an ID Token for Identity (e.g OpenID spec, or if rolling your own look at JWT's)
+Have Web Applications use an authorization token to get a access token.
+Use access tokens to provide protected resources."
+187248,"['trusted platform module (tpm)', 'physically unclonable functions (puf)']","**User:**
+Secure high-portability way to store passwords? I'm developing a cross-platform Java desktop application which uses a password to derive a cryptographic key. I'd like to add a ""Remember me"" feature that stores this cryptographic key on the hard drive securely so that my program can get it after a reboot.
+
+If I store it directly, anyone who manages to get access to a typical user's hard drive (no encryption) will be able to get the key. If I encrypt it, the key used to encrypt it must still be stored somewhere on the drive, and hence defeats the purpose.
+
+I've seen gnome-keyring, Windows Credential Manager, and Mac OSX keychain, but they each seem to have their own non-Java APIs (or unofficial ports to Java). Furthermore, it seems like any program running as the user will be able to read or write to or from these two services.
+
+Is there a more portable (and preferably isolated) way to securely store passwords (or cryptographic keys) on the hard drive?
+
+Thanks!
+
+**Assistant:**
+On today's systems, methods exist for securely storing or deriving cryptographic keys on endpoint devices. These approaches aim to protect root keys and other application-specific keys, ensuring they can only be used under specific secure conditions. Such techniques are crucial for robust authentication on endpoint devices."
+187300,['password hashing tool'],"**User:**
+Storing Encrypted Passwords I was thinking about alternatives to hashes for storing passwords, and I was wondering if there was any huge security flaw with one I came up with.
+
+If, when the user creates their account, their password is used as a key to encrypt itself and stored that way, you could validate logins by decrypting the stored password with the given password and checking if they match.
+
+Is there any inherent theoretical problem with this idea, assuming the encryption is immune to such things as collisions and related-key attacks?
+
+**Assistant:**
+Is there any inherent theoretical problem with this idea, assuming the encryption is immune to such things as collisions and related-key attacks?
+
+
+Yes, there is a problem with this idea even given your assumptions.
+
+Some problems: The way you have stated your encryption ""solution"" seems to imply that you are just using a single key and no random IV or anything like that. In that case you are vulnerable to dictionary and other brute force attacks (you are still vulnerable even with a salt since the ""hash"" is likely fast). Also, with nothing to act as a ""salt"" you will be ""hashing"" the same password to the same ""hash"" each time, which is also bad."
+188592,"['hips (host intrusion prevention system)', 'ips and ids', 'firewall']","**User:**
+When hardening a LINUX system what command line tools would you remove first in order to make an attackers life really difficult? When hardening a LINUX system what command line tools would you remove first in order to make an attackers life really difficult? 
+
+**Assistant:**
+Most of the native tools are necessary for system administration. There are very few that you could remove without being concerned that you'll need them one day.
+
+You run a serious risk of extending outages or delaying projects when administrators are missing essential tools.
+
+Instead, you should focus on:
+
+
+Making it difficult for an attacker to communicate with the system (network boundaries, packet inspection, removal of unnecessary services)
+Isolating hosts based on sensitivity of data (DMZs, network ACLs)
+Blocking inappropriate communication
+Preventing exploitation and limiting escalation (patching, app-specific hardening, least privilege users, chmod jails, sandboxing)"
+195105,['password cracking tool'],"**User:**
+If someone has a hashed password, how long till they decrypt it? Earlier my friend suggested that we have a race to see who could decrypt a hashed password first. I want to do it but I don't want it to be an all month thing. I know when passwords are hashed they can't be unhashed but if someone were to have the hash (no salt) of a password with the parameters being 6 char long and only contain lower case letters along with numbers, how long would it take for them to generate a wordlist and hash each one to see if they match?
+
+**Assistant:**
+Not too long.
+
+If I understand your question correctly, you'll be using passwords that are 6 characters long, with only lowercase letters and numbers. So each character can only take be one of 36 possible outcomes (26 letters + 10 digits)
+
+Effectively it's 36^6 combination which is 2.1 Billion.
+
+Obviously it depends on the hash in question, and the hardware you're using, see here has a good comparison.
+
+For e.g if you're using MD5, this would be cracked in under a second. Even with SHA-3 this wouldn't take more than hour. If you go wild with multiple high-end GPUs, this would be a walk in the park -- even if the password were truly random.
+
+And I'm assuming you're brute-forcing every possible combination -- not from a wordlist. Most programs will allow you to bruteforce without a wordlist. Which seems apt for your use-case."
+195268,['trusted stamping authority (tsa) service'],"**User:**
+Verify the age of data We learned a lot about cryptography in class already, like encoding messages or signing them, creating shared secrets between network nodes, symmetric and asymmetric encryption methods... 
+
+I am wondering: Is it possible, with the given algorithms and concepts of encryption, to prove that a given data set has a given age?
+
+I want to have a little chunk of meta information (like when signing data -> the datas hash encrypted with the private key) that allows anyone to verify that the data they are viewing is still the same as it was e.g. 5 days ago. Think of age verified security camera recordings for example. 
+
+Is this currently possible? If not, what are the problems that prevent such systems from working? Could it be possible somehow? Share your wild ideas please. 
+
+**Assistant:**
+Common Encryption, Signing, Encoding etc algorithms themselves do not not have a concept of time. Thus with these techniques alone it is not possible to create what you want. And while it would be easy to include a timestamp together with the encrypted data it would be also easy to include some fake timestamp, i.e. something on the past or in the future depending on what should be achieved.
+
+The situation changes if you add the concept of trusted timestamping, i.e. something which others will trust to provide both the accurate time and to combine this time with some data in a way which can not be manipulated later to change the time or data.
+
+One possible implementation for such a trusted timestamping involves a third party service where a hash of the original data is submitted and which then combines this hash and a timestamp and digitally signs this combination. Everybody who trusts such a service can verify the signature and check the timestamp and thus validate that the (hashed) data are at least as old as the timestamp says. It is not possible this way to guarantee that the data are not older because the creator of the data might just submit the data for timestamping any time he wants.
+
+For more information about this see various questions in this site, like Trusted Timestamping Scope and Real-World Uses or How to prove a picture was taken before a certain date?. See also the article on Wikipedia about Trusted timestamping which in addition to a description of such centralized services includes information about decentralized timestamping using a blockchain and which contains many useful links for further information."
+195997,"['android emulator', 'two factor authentication']","**User:**
+How can I run 2FA Authenticator on my laptop when my phone is in for repairs? I recently got a new phone that has various hardware issues with it. As such, before the warranty expires, I need to send it back for repairs. Unfortunately, I already have Google Authenticator authenticating many accounts that I do not want to lose access to while my phone is being repaired.
+I have securely stored recovery codes for all of these accounts, but those are to be used only if I permanently lose access to my primary authentication device. Using them while my phone is being repaired risks running out of codes, which will result in me permanently having no way to log in after that because I intend to fully wipe my phone before giving it up (especially since the repair people are most likely to simply replace it). Stopping myself before I fully run out of codes will result in temporary depletion, which is also a problem.
+I have no other mobile device to use in its place (mobile device meaning a device running Android or IOS), however I have several computers (both multiple laptops and multiple desktops). As such, I am thinking the least-bad solution would be to run Google Authenticator on my Linux Laptop that I carry with me most often, but this is not an ideal solution for me because that laptop is my primary computer, and one of the advantages of 2FA is that it can defend against certain attacks that compromise one's main computer, such as a keylogger.
+With that said, however, a valid answer provides a specific way to run Google Authenticator on a (Arch) Linux laptop.
+
+**Assistant:**
+There's also a chrome extension called Authy as stated by user in the comments to this answer."
+212242,"['vpn', 'privacy-focused email service']","**User:**
+How can I publish text and video without revealing my identity? Let's I want to publish online
+
+
+a fiction book and
+a series of videos for promoting it.
+
+
+Let's further assume that the book challenges some widely held views and it is possible that people will hat me for that. However, no part of the book breaks any law (i. e. there are no threats in that book, nor appeals to violence; I can prove that it was me who wrote the book).
+
+How can I make the book and the videos accessible to a wider audience such that
+
+
+my identity cannot easily be revealed, nor
+the identities of people who read the book and view the videos?
+
+
+Note that the protection is meant against co-workers,  employers, and neighbors who may not like my views. It is not a protection against the authorities.  
+
+**Assistant:**
+""co-workers, employers, and neighbors""
+
+I agree with all the advice given so far in comments and answers, but felt this deserved some more specific advice around your stated adversaries.
+Establishing an alter ego
+For your purpose, you don't need an entire false identity, just some anonymity. I would suggest using a free email service. You probably don't need an anonymous phone number unless you intend to deal anonymously with publishers or other business partners you don't trust, and you should avoid voice interactions at all costs anyway.
+Obviously, don't make your alter ego's identity linkable to yours. For example, if you spent your 20s drinking red wine and telling everybody that Kafka was the greatest mind of literary history, then don't go naming your alter ego Franz, or Gregor, or Joseph, or Valli, Elli, or Ottla, etc. Likewise, no dead pets or beloved high school teachers that your internet history might reveal. I'd use one of the countless name generators available online for creating RPG characters, or something like that.
+Pseudonymous self-publishing isn't really that hard if you aren't concerned about subpoenas or law enforcement investigations. With your new email address you can create a free site (WordPress.com would be fine for this) and video hosting account. To preserve your visitors' anonymity you might choose to avoid YouTube — Dailymotion would be fine, or take your pick.
+If it were me I would take some basic precautions while operating my alter ego — for example, I would install a browser separate from the one(s) I currently use to create and sign into those accounts.      
+Protecting your readers' identities
+As noted in other answers, there's only so much you can do here. So long as your book and videos are on a platform which doesn't require anybody to sign in (all those mentioned above would be suitable) that's probably as much as you can reasonably do. If you were really dedicated, and had the time and skills, you could always set up your own server to host everything, configure it to be logless, only accessible through Tor, etc. But that really changes your attack surface, as your own self-administered server is much more likely to be vulnerable to a curious attacker interested in deanonymising you than the above-mentioned widely-used free services. That is, I think, a bad tradeoff.
+Maintaining your pseudonymity
+As already mentioned by others, there are some simple OPSEC precautions you will need to take. Most importantly, your real identity cannot have any interactions with your pseudonym, at all. ""You"" have no knowledge nor awareness of the book, site, or author, don't mention it, and don't appear interested if anybody else does.
+Use only your alter ego and pseudonymous details when promoting, discussing, or corresponding about the book, videos, or any other detail about the publication. Don't do anything by voice, obviously. If you are concerned about the stylistic analyses described in some answers and comments here, then keep correspondence from your alter ego to an absolute minimum.
+Unless you become the target of a dedicated, experienced investigator or hacker, these simple precautions should be more than adequate for your needs. A lot of people self-publish pseudonymously for all sorts of legitimate reasons, and most take less care than is outlined here without real risk."
+220148,['credential protection'],"**User:**
+Lateral Movement: What is the benefit of Windows Hello For Business? I work as a security researcher, tonight I implemented Windows Hello For Business in our environment, because it is marketed as the ""passwordless way of the future"" and I wanted to see if it holds up to its promises.
+
+The decision was made to go on-premise with certificate-based authentication (AD2016+ADFS+WindowsCA), and then to test it out from a lateral movement perspective. I registered my laptop and enrolled WH4B with facial recognition and backup pin. Albeit the installation itself was a real PITA (10+ hours to get it running) it now works fine and I can see how face unlock is a nice convenience factor compared to typing in a password.
+
+But security wise? run mimikatz... sekurlsa::logonpasswords... and I still get all the NTLM hashes, kerberos tickets and plaintext passwords. Lateral movement: same as before. nothing has changed.
+
+Did I implement WH4B wrong or is this just the way it is? I followed this Microsoft guide.
+
+**Assistant:**
+Disclosure: I work on the team that builds security features.
+
+There's no one-size-fits-all solution for reducing credential theft and lateral movement because the space is so huge.
+
+That does not mean you can't steal derived secrets like Kerberos tickets or NTLM hashes. There are other features that make that more difficult."
+220549,"['data protection service', 'web application firewall', 'ddos protection service', 'two factor authentication', 'drive encryption tool']","**User:**
+I have just 4 hours a month to security check a cloud based application - How to use my time? I've been tasked with looking after an application deployed to azure. I have been allocated 4 hours a month. 
+
+I essentially have half a workday to secure this application / keep it secure. What is an efficient use of my time? 
+
+Should I concentrate on:
+
+
+Making sure all the components are up to date?
+Checking all the logs to make sure nothing is looking dodgy?
+Attempting to ""hack"" the application myself?
+Documenting the system in detail from a security perspective?
+Researching current vulnerabilities in this/related tech?
+Ensuring backups etc are working correctly?
+Disaster recovery stuff?
+Creating policy around ""being hacked""?
+Auditing the source code with some tool to search for bad patterns?
+
+
+Or some combination/something else?
+
+I'm looking for experience based answers, preferably from someone that does this kind of security maintenance. If there is any kind of existing best-practice/guideline that would also really help. 
+
+The technology stack is:
+
+
+SQL Server Database (Azure SQL)
+C# Web API
+Angular Front End
+
+
+There are several additional components, but I'm not really looking for tech specific answers, more a strategy on how to approach this.
+
+**Assistant:**
+Start with the Azure top security best practices so you can maintain and improve security of your Azure solution step by step:
+
+agree and upgrade your Azure subscription to Azure Security Center Standard. This will help you find and fix security vulnerabilities, apply access and application controls to block malicious activity, detect threats using analytics, and respond promptly to attacks;
+store your keys, database credentials, API keys and certificates in Azure Key Vault. Additionally make sure keys and secrets in the solution are not stored in the application source code;
+connect Azure virtual machines and appliances to other networked devices by placing them on Azure virtual networks;
+
+
+When you are ready, focus on:
+
+
+managing your VM updates as Azure doesn't push Windows updates automatically
+making sure to setup processes for important cloud operations such as patch management, incident management, change management, emergency user access, privileged access;
+enable password management and use appropriate security policies to prevent abuse;
+review your Security Center dashboard to maintain an overview of the security state of all of your Azure resources so then if required you can take action on the recommendations;
+
+
+Read the Microsoft documentation on the Azure security best practices.
+
+Documentation:
+
+Microsoft Azure Security Fundamentals
+
+Microsoft Azure Security Documentation"
+221367,['log viewer'],"**User:**
+Alternative routes for Incident Response approach other than Windows Event Viewer? I am in preparation of developing an Incident Response Plan for a computer that has been hacked (no malware installed, just a system hack). My plan is to analyse through Windows Event Viewer to try and detect some unusual behaviour to the machine. 
+
+However, if a hacker has changed the contents of the log file or changed the time, what are the alternative routes for developing an IRP other than Windows Event viewer?
+
+**Assistant:**
+I once had a similar task and I found Nirsoft Mega Report. It combines some of the NirSoft utilities. I didn't find it very useful, since you get a lot of single reports, but not a complete timeline.
+
+End of 2014, I tried to achieve it myself by using the NirSoft tools, running them in unattended mode and exporting to XML. The tools I considered for that were
+
+
+JumpListsView (see what was done last)
+RecentFilesView (which files were used last)
+UserAssistView
+FirefoxDownloadsView (maybe some malware came from there)
+ShellBagsView
+BrowsingHistoryView
+FlashCookiesView
+MozillaCacheView
+WinPrefetchView
+DevManView (were there devices connected)
+IECacheView
+ImageCacheViewer
+myuninst
+USBDeview (were there devices connected)
+
+
+From all these XMLs I tried to build a complete timeline. I say ""tried"", because
+
+
+I found that the XMLs were not always well-formed. I reported that as bugs, but I was never notified whether they were fixed.
+Not all tools provide XML export
+
+
+Still, all those reports may be helpful.
+
+If you do forensic stuff, consider the following basic rules:
+
+
+get an image in a forensically sound way
+only work on a copy of that image. Never work on the original and never work on the forensically sound image (of step one)."
+222227,"['ssl and tls mutual authentication', 'firewall']","**User:**
+How do I configure Azure Web Apps so that the only access is via CloudFlare? I have a Web Apps (Linux) application on Azure, and I added a custom domain which I have protected with CloudFlare.
+
+I added Azure Security Center to my subscription.
+
+At the moment one can access the application either 
+
+
+directly via example.azurewebsites.net or 
+via www.example.com which is protected by CloudFlare
+
+
+How do I configure the Azure portal so that the only access to my web application is via CloudFlare?
+
+One idea I had is to add an Azure Firewall, and set it to white list the CloudFlare IP Addresses, but I wondered if there is an easier way (and anyway I am not sure how to configure it) 
+
+**Assistant:**
+There is one main way to do this: restrict the allowable origins of web requests, which will need to be done by IP filtering.
+
+Approach
+A common and logical way to do this is at the network level. You could also edit your web application to reject any incoming requests from outside of Cloudflare's IP range, but that's almost certainly both more work and less secure than using other, more specialized methods for network access control.
+Cloudflare has published an article explaining how to whitelist to them, and mentions either doing it using the web app config (such as a .htaccess file) or by configuring network access rules. The IP address ranges used are documented here."
+225406,"['phishing detection', 'phishing simulations']","**User:**
+What is the best way to protect against a phishing attack? As stated in the title, what can I do on the server (or anywhere else for that matter) to protect against phishing attacks?
+
+Some suggestions I've heard is to tell users that you'll never send them a link to click on. However, our password reset functionality is built around this. 
+
+We've also added two factor authentication, but a phishing attack can also easily bypass this through clever scripting that passes the user credentials to our site in real time.
+
+**Assistant:**
+Phishing is a social engineering trick, so the effective way to mitigate it - is to educate your users. Create a mandatory training courses, buy or create a plugin to outlook or whatever mail clients they are using that can flag emails as phishing attacks and send to you or your team for forensics, contract a third party to sometimes perform a non malicious phishing attack (when you click on attachment it will say ""this was a part of our comprehensive phishing awareness programs..."" to keep your users aware."
+225650,['virus scanner'],"**User:**
+PDF Server Side 2020 I have been gathering information on handling PDF files for web applications. Much of my research has been on displaying the files to the user.
+
+What I want to learn here is how to properly handle the file on the server side. That is,
+
+1. How to properly accept and store a new document.
+
+Lets assume I can trust a new incoming PDF file. My current plan is to store the file outside of my web root. I will then store meta-data (title, date, doc type, location in system, etc) in a Database.
+
+2. How to properly link a PDF file for access.
+
+Whether the files are stored inside or outside of web-root, we do not want to use the full path of the document for an <a> tag or something of the like. We want to give as little information about the file system as possible. Lets assume my file is stored in /documents/*doctype*/*YYYY*/*YYYYMMDD*/*title*.pdf. I currently have two methods on the table for protecting the path.
+
+A.) I can only provide a key or unique identifier for the document and when attempting to access I will look for that key along with the associated path in the database. Once the path is found the file file may be opened.
+
+B.) I can encrypt the different pieces of the file path when output to the page and decrypt when a user attempts to view that PDF.
+
+!!! Consideration: this may prevent my ability to open the files for viewing in browser provided sandbox environment. !!!
+
+3. How to store potentially malicious PDF files.
+
+Lets say I have an end user with ill intent that has decided they would like to attack my system using a PDF file. This user would be able to upload the file directly to my system without any characters being removed from the document. The file is only saved by the system and only meta-data is read. While this file is imported to my file system, will it be able to execute any malicious code? If the file is never read by the system, can it be considered safe until it is downloaded or viewed?
+
+**Assistant:**
+1. How to properly accept and store a new document.
+
+I would recommend to store files in the database, not separately. A) File system is not transactional. That's why it is hard to keep it consistent with database. B) Creating of backups and restoring of particular versions from backups can lead to inconsistencies between file system and database: Database can contain references to files that don't exist, or there can be files that are not references in the database. Database will
+
+2. How to properly link a PDF file for access.
+
+Take your approach A). Use randomly generated unique IDs. They will not disclose your internal structure of the application (and hide the structure of your file system, if you stick to it).
+
+3. How to store potentially malicious PDF files.
+
+A) Check MIME type. There are many libraries that can do that for you. If the file is not PDF (not one of multiple PDF versions), then reject storing such file.
+
+B) Set some size limit."
+236675,['regex-based wordlist generator'],"**User:**
+Wordlist generator with a certain pattern I am trying to generate a wordlist. I am using crunch but I am stuck at defining the pattern I want the words to be generated. For example, I want to define a rule such as this:
+Password: Ameri948 ca#
+Words: [A|a]meri[\d\d\d][space|no space][C|c]a[space|*|#]
+Which means, I know the structure of the password and the exact length (here the space or no space plays a role), but not the exact combinations, e.g. the first character is for sure an A but I don't know whether it is a capital A or a lowercase one. And another problem is spaces, to get the password to a certain length, which I know, I tried some sort of padding with spaces in between words.
+Can a pattern like this be defined in crunch? Or would you suggest just coding it?
+
+**Assistant:**
+I think your case would be:
+[Aa]meri\d{3}\s?[Cc]a\s{0,4}#
+I limited the latter space to max 4 so the regex would be able to terminate."
+242644,['hard drive encryption'],"**User:**
+Password protect an internal hard drive in a shared Windows PC where all users are administrators It is a laptop shared by my lab. Today I use it, another day one of my student takes it on a field trip. I have 3 hard drives. I wanna leave 2 hard drives for my students and 1 for myself. On my hard drive, I have all my stuff. Students have admin access since they need to install programs, run scripts, etc. Is there a way to password protect my internal hard drive so that none of my students (i.e. other administrators) can access my files if logged in on their account?
+EXTRA INFO: My stuff is backed up on Dropbox so I do not care if they wipe the drive out. It is a Windows PC.
+
+**Assistant:**
+There's a concept in threat modelling called spheres of control. A sphere of control is effectively the things in a system that a particular actor has control over. Actors are usually people with different roles, such as unauthenticated users, logged in users, administrators, etc., and each of these has their own sphere of control. If you think about how these spheres overlap, or might overlap, you can better understand what resources each actor has access to (or at least should have access to) and use that to identify where your risks might be concentrated.
+You have one sphere for everyone. You, the trusted user, have persistent admin access on an OS and they, the untrusted users, have exactly the same level of persistent access. No matter what control you put in place, they can circumvent it, because you have the same sphere of control as an untrusted user.
+For the purposes of my answer here I'm going to ignore the potential for hardware modification. While they're technically possible, your students probably don't have sufficient motivation and resources to implement such attacks, and if I included them in the threat model my answer would be much more complicated and bleak.
+What you need to do is create two separate spheres of control, and enforce the separation with a security boundary. If the students require administrative access on the OS, you cannot enforce separation between you and them on that OS."
+243158,['confidential virtual machine'],"**User:**
+Can a host access a VPS disk's encrypted directory directly while running? I have an Ubuntu VPS running at a remote host. The disk is not encrypted but I have a specific directory that is encrypted for which I must provide a password via an SSH session (not stored anywhere on the VPS) to ""unlock"" it so that the services can run on this VPS and serve the content decrypted.
+Assuming the bad admin cannot login to the system like I do via SSH. Can the bad admin read the encrypted directory's decrypted content while running and/or can the bad admin gain access to the in-memory key for the encrypted directory?
+
+**Assistant:**
+Yes
+Your situation violates three of the Ten Immutable Laws of Security, namely:
+Law #2: If a bad guy can alter the operating system on your computer, it’s not your computer anymore
+Law #3: If a bad guy has unrestricted physical access to your computer, it’s not your computer anymore
+Law #6: A computer is only as secure as the administrator is trustworthy
+With enough effort the admin definitely can dump the memory and extract either the key or decrypted data while the VPS is running and the directory is decrypted. Alternatively, (since the disk is not encrypted) the rogue admin could modify the SSH server binary to log the password in cleartext.
+What can you do?
+The only way to be absolutely sure would be to host your own server."
+245607,"['ddos protection service', 'web application firewall', 'captcha service']","**User:**
+Layer7 DDoS Protection vs WAF, which should I use? I have Layer3 ddos protection, but I want to upgrade it to Layer7 ddos protection. But when i look about Layer7 Ddos attacks, I see that they are usually HTTP/HTTPS based attacks. I have 3 questions;
+
+What is other Layer7 DDos attacks, e.g FTP, DNS ?
+If I use WAF instead of Layer7 ddos protection, what will be risks in my system?
+Using WAF for ddos protection is a prefered way?
+
+
+**Assistant:**
+What are other Layer7 DDoS attacks, e.g., FTP, DNS?
+Application layer attacks, or layer 7 (L7) DDoS attacks, refer to a type of malicious behavior designed to target the “top” layer in the OSI model where common internet requests such as HTTP GET and HTTP POST occur. These layer 7 attacks, in contrast to network layer attacks such as DNS Amplification, are particularly effective due to their consumption of server resources in addition to network resources.
+What are the risks in your system when dealing with Layer 7 DDoS attacks?
+General security measures can mitigate application layer DDoS attacks up to a certain level. Application layer DDoS attacks are very difficult to avoid. Especially botnet attacks are not spoofed, and requests seem to be fully legitimate.
+Is there a preferred way to protect against application layer DDoS attacks?
+Addressing these attacks often requires adaptive technology to distinguish legitimate users from malicious bots. This is crucial because botnet attacks are very difficult to identify from legitimate traffic. Solutions that specifically focus on behavioral analysis and challenge mechanisms are highly effective. For more advanced solutions, refer to specialized resources."
+255976,['managed switch'],"**User:**
+Ethernet wiretapping attack I have some questions about the Ethernet wiretapping attack. I have already created a small lab using a cat5e (downgraded to 100mbit), a cat7 and this as a keystone: link. The lab looks like this:
+
+client --.TAPHERE.--> switch ---> modem
+
+So far I managed to tap the downgraded cat5e, it was easy, but…
+
+Why for every pair is required a keystone and a NIC? Why isn't possible to use all the needed pairs on the same keystone and NIC?
+
+How to correctly tap a gigabit Ethernet cable without cutting the brown/ blue pair? I mean, I know I have to use all the pairs. In fact, is what I tried, but if I do that, the client (the victim) loses the connection.
+
+Based on that scenario, is it possible to actively join a network rather than just sniffing? If yes, how? What else do I need to achieve that? If no, why?
+
+
+
+**Assistant:**
+Why for every pair is required a keystone and a nic? Why is not possible to use all the needed pairs on the same keystone and nic?
+Keystones are just passive connectors. You don't need them, just create the required connections any way you like:
+What you need for 10BASE-T and 100BASE-TX is to split transmit/receive directions and connect each to a separate NIC's receiver. You need two NICs because there are two independent signals you need to receive (assuming full-duplex mode - with half duplex you just use a repeater hub and make sure that you're not sending anything).
+That mechanical splitting isn't possible for 1000BASE-T and faster at all since these use all pairs in full duplex - both directions simultaneously.
+Actually, tapping into a gigabit link electrically is a rather complex endeavour as you'd need to separate the superimposed signals, which is much easier for the involved link partners than on an intermediate point - each partner knows what it's currently sending and can subtract that from the received signal (greatly simplified).
+Instead, you'd need to terminate the link in between and tap into the terminated link."
+256008,['memory forensics tool'],"**User:**
+RAM as a attack target What is the simplest or most common method to read a value, for example a text, from the RAM of a personal computer?
+What access requirements are necessary for this? Is a search in a hex dump always required or are there shorter ways?
+
+**Assistant:**
+Since you tagged this question as ""cold boot attack"" and ""forensics"", I presume you're asking about a physical memory dump.
+These dumps are usually acquired by something like pcileech, using a special hardware device as an interface to the target system's memory. You may also acquire a memory dump from a crash dump or some other forensic tool. Generally you're copying the entire contents of physical memory into a dump file for later analysis.
+Once you've got a memory dump, it's possible to just search through it using a hex editor, but specialized tools are often employed for deeper analysis. This provides much more information about the state of the system, since such tools can parse various operating system structures."
+256083,"['application whitelisting tool', 'software deployment and management service']","**User:**
+How to maintain and enforce an approved list of software? I work in a software-development company where we have a lot of tech-savvy people.
+For ISO27001 certification we need to maintain list of approved software. And I'd like to understand how in practice this list is maintained and enforced?
+The problem is that, we can define the list of the main tools used in the company there. But besides these big products like MS Office, Visual Studio etc there is a whole bunch of small tools  like tools from Sysinternals, rootkit finders, browser plugins, plugins for VSCode, 3rd party libraries used by developers, scripts which are written internally or downloaded form the internet etc.
+For linux servers, there are also thousands tools available from the official repos.
+On windows people can run any portable tool even without admin rights.
+Another aspect is how to practically enforce this list on laptops and on servers.
+The portable tools don't require admin rights to run, quite a few users have admin rights as they need for work.
+For me it looks impractical to maintain list of all these small bits and pieces and I'd like to understand where to draw the line. The systems need to be secure but usable at the same time and we should not slow down work for the employees as well.
+I'm thinking of:
+
+defining list of the main categories of the tools and ask users to use only approved tools from defined categories. And for all small tools - state that users are responsible for security validation of the tool (antivirus check, download from trusted/known source, review of the script before execution etc).
+For linux servers - allow everything from official repositories
+For windows servers - allow installation only to admins (in place) and on terminal servers - use whitelisting for the programs by hash.
+
+
+What are the best practices to implement and enforce the list of approved software?
+How do you make sure that the list is valid?
+How do you enforce the list?
+
+
+**Assistant:**
+There are really two questions here. If you're looking at how to actually enforce the use of approved software only, you need to implement controls to only allow binaries with specific hashes to be run. You then need to test and verify every update or new version, and have monitoring in place to detect admins doing things they shouldn't and overriding your rules. Unless you're operating at TOP SECRET, this is probably impractical overkill.
+If you're looking to put something in place that will let you pass ISO 27001, you can be a bit more open, but need to support it with policies. A common approach here would be to:
+Ensure that your users don't have admin rights
+Implement controls to only allow them to execute binaries from C:\Program Files and C:\Windows
+You then need a policy to say that your admins won't override the rules (except in edge cases where this is allowed and documented), and to have processes to:
+Review software and decide whether it's ""approved"" based on some criteria you define.
+Allow users to request new software be added to the list
+Maintain a list based on the above
+Install this software on users' computers (or have a self-service platform for software delivery)
+Deploy patches and updates to users
+Handle exceptions and edge cases where users (or more frequently administrators) need to run something that's not on the approved list based on a risk assessment of the software.
+Carrying out regular reviews to identify policy breaches (such as vulnerability scanning, asset/inventory scanning, or random auditing)
+In terms of how you decide what is approved, that will depend on the requirements of the business. But it would often include things like:
+Is it fully patched?
+Are there any known vulnerabilities?
+Is it still supported? Is commercial support available?
+Can we legally use it (commercial licenses, compatible open source ones, etc)?
+Is it written by a trusted company/developer?
+Is it from a hostile nation?
+Has it undergone security testing?
+Does the developer follow secure development practices?
+You can also look at outsourcing some of the work to reduce the overhead of managing software versions. This could be doing something like certificate-based validation (e.g., everything signed with the ""Microsoft"" code signing cert is allowed), or through ""trusted"" installation methods (e.g., everything in the app store is allowed).
+It's not 100% bulletproof, but you should be able to find a balance that your auditor will be happy with, and that doesn't cause too much overhead and disruption."
+259622,['configuration management tool'],"**User:**
+Reverse Shell for managing unreachable remote computers In the near future, I will have about 50 remote computers to manage. These will be physical PCs running Debian 11, distributed all over the country. They will automatically perform a special kind of measurement repeatedly, and upload the results over the internet to 2 web servers.
+I have already implemented the system, but there is a huge problem which must be solved before deployment: I will have to be able to manage the remote computers to fix bugs, install updates etc., but they will be unreachable over the network after they are deployed.
+My first idea was to make the remote machines automatically connect to the web servers to create a reverse SSH tunnel. This doesn't work because from the internet the servers are only accessible via HTTPS (company rule).
+My second idea was to apply the Reverse Shell (RSH) technique (source). I could write a custom RSH client for the remote machines, and extend the web servers with RSH server functionality. The RSH clients would run as services, periodically request commands from the RSH servers, perform the commands, and send back the result. I could SSH to one of the web servers and issue commands to any number of remote machines.
+But can this be made safe? I mean, I'd like to be sure nobody else can send commands to the remote machines to stole measurement data, ruin the system etc.
+The channel is HTTPS, but the web servers only have self-signed certificates. I have read that MITM attacks could be avoided by making the RSH clients check the server certificates' fingerprint (source). I also plan to install separate self-signed certificates for every RSH client, and have the RSH servers check the client certificates' fingerprint. Commands would only be sent and processed if this mutual fingerprint-based authentication is successful. Before the system is deployed, the actual fingerprints could be installed where they are needed to be checked.
+Is this approach sound enough to save the remote computers from being turned into a zombie network by an attacker? If not, then what would be a good solution to manage unreachable, unattended remote PCs?
+
+**Assistant:**
+If done properly, the combination of HTTPS and self-signed certificates should ensure confidentiality and integrity when communicating between clients and servers.
+However, implementing your own ""secure"" RHS software system seems like a bad idea from a security perspective. Are you certain that you will be able to do so without introducing a bunch of vulnerabilities yourself? Are you sure that any ""smart"" IDS/IPS or other protections that are in place, won't screw you over? Will you be able to commit yourself to maintaining this system as long as deemed necessary, whatever that might involve?
+Also, is manually configuring each remote device really what you want? The first thing that popped in my mind when I read this, was to use an automated system to orchestrate everything."
+261418,"['drive encryption tool', 'file encryption tool', 'password manager']","**User:**
+What would be the most secure way to store and save my passwords on my desktop? I store my passwords in a multitude of ways, these are all sorts of passwords, not only for websites and browsers. I also have credit card numbers, addresses etc...
+Now I'm using these methods:
+
+LastPass + downloaded CSV or all my passwords
+Plain text file in a folder on my desktop PC
+Spreadsheet in a folder on my desktop PC
+Google sheet locked spreadsheet
+In text expander apps on desktop (Beeftext)
+I also store them in Keynote (organization app on desktop)
+
+Are any of these options safe or dangerous?
+
+**Assistant:**
+One suitable approach involves solutions that neither store passwords in plain text (where anybody who steals the machine, or any malicious process, can read them and steal them) nor store them on somebody else's computer in a readable form (these solutions often use ""zero-trust"" end-to-end encryption, meaning their servers never have enough information to decrypt your stored information). Such a solution can store arbitrary data types (and credit card numbers are an explicitly supported type) in its secure repository; you don't need other storage locations. These solutions can often be accessed through a desktop app as well as a browser.
+If you don't want to use one specific solution for everything, there are plenty of other secure storage options. Some store information locally rather than using any cloud-based storage, which means you don't have to worry about how good the zero-trust system is; there's no server to trust anyhow. Some have better integration with different systems (usually browsers but sometimes other apps too). Recommending specific software is out of scope for this site, but there are only a few widely recommended secure storage solutions at any given point in time.
+Most operating systems (or in Linux's / BSD's case, desktop environments) have a built-in secret storage, which might be called ""keychain"", ""wallet"", ""vault"" or similar. This is usually (though not always) encrypted with a key derived from (or protected by another key derived from) your login password, so it's usually not a lot of protection against malicious running processes, but it's secure against a thief unless they can figure out your password. You can also protect against thieves by securing the entire storage medium. For protecting against malicious processes on the running machine, there are two standard protections: access controls prevent code running under any other account from reading your files (unless the other process is very highly privileged), and sandboxes prevent even code running under your account from reading files they don't need. All major operating systems support both of these, though the degree to which each is used, and the way in which it works, varies between platforms and also depends on what software you install and how you use the system.
+EDIT: An important consideration is that, just like other data, passwords can and should be backed up. This could be backing up to multiple independent instances of the same sort of secure digital storage (flashdrives in safes, etc.), or to multiple types of storage.
+Passwords do have the complication that everywhere they are stored is another opportunity for them to be exposed. Security is only as strong as the weakest link, but it's hard to know which link is weakest for sure, so adding many links (opportunities for attack) is dangerous (this concept is called ""attack surface""). As such, it's important to balance the importance of preserving data against loss, with the risk of the same data being compromised. It's also important to ensure that all storage of passwords (or any other sensitive data) meets a suitable minimum level of security.
+While a previous mention suggested a specific option was the only really suitable one from your list, that's not quite true; if the CSV is stored in a physically secured location (such as on a disk / flashdrive in a locked safe), that is secure (well, as secure as the safe is). Having such an ""offline backup"" is a very good idea (though it will want periodic updating).
+Going down your list specifically:
+Downloaded CSV of all passwords: Safe only if stored in a physically protected location, such as on a flashdrive that is kept in a locked physical safe or a bank's safety deposit box. Unsafe otherwise, as it could be stolen or read by an untrusted process. EDIT: In general, this or something like it is a good candidate for an offline backup, stored somewhere highly secure and periodically updated.
+Plain text file in a folder on PC: Unsafe unless that file is adequately secured, and ideally also stored in a location no other account on the machine can access. Not all methods of file protection are equally good, and in all cases the quality of the key (or password used to derive the key) matters.
+Spreadsheet in a folder on PC: Unsafe for exactly the same reason as above.
+Google Sheets locked spreadsheet: Probably unsafe, depending on who you trust. Google can definitely read this, probably trivially. Depending on exactly what you mean by ""locked"" (AFAIK, Google doesn't offer the ability to actually encrypt sheets), anybody else that gets access to your Google account probably can too. In the event of a stolen machine, depending on whether the sheet was open in a browser tab or similar, an attacker might be able to read it if your entire storage medium is not secured. Depending on your platform and browser, if your entire storage medium is not secured and you do leave your Google account permanently signed in, a thief might be able to hijack you Google session token and access the sheet through your account that way.
+Beeftext: Probably unsafe. I'm not familiar with this software but I'd be very surprised if it doesn't store all its data in a format about as readable as the spreadsheet. Possibly even worse, if it also stores it on other computers (""the cloud"") without end-to-end and ideally zero-trust encryption (would be very surprising if it has that).
+Keynote on the desktop: Unsafe for the same reasons as the plain text file and spreadsheet; Keynote data is stored in files in your user profile.
+Recommended options:
+Store the data in a file on your PC, but ensure the file is adequately secured. The operating system's built-in file protection methods are generally not bad except that they are based on your login password and are transparent to any process running as you, which isn't ideal (although realistically if any malicious software is running with your privileges, everything sensitive on that machine is probably compromised). Don't leave the file unsecured when not using it. This method risks exposure through things like temp files created by your editor when reading the file.
+Store the data in a file on a flashdrive, and ensure the entire flashdrive is secured (or, if it's a drive with hardware protection support, using that). Still needs to be a strong password/key, and not be left unlocked where it might get found by a malicious program.
+EDIT: Store the data in a file or document, either digitally on a removable drive, or physically on a printout, and store the storage (drive, paper, etc.) in a physically secured location. A locked (and ideally fireproof) safe, or a bank's safe deposit box, or similar, are popular choices for this. While this option is not suitable as primary storage - it takes too long to access and is inconvenient to enter the passwords from - it's a good backup in case something happens to your primary storage (such as forgetting a master password for a secured digital solution or a company going out of business, etc.)."
+261720,['software composition analysis (sca) tool'],"**User:**
+How to vet third-party developer packages Looking to create a form where developers can submit requests for packages to be installed. We want to create a list of questions that can help us determine whether or not a package is safe. What are some important questions to include in the form for our developers?
+My list so far:
+
+Package Type:  NPM, PYPI, etc...
+Package Name:
+Package Version:
+Package Release Date:
+Explain Use Case of the package:
+Provide the Package Documentation
+Commit history? Actively maintained and updated? How many people can make commit changes? Are changes automatically approved or are they reviewed?
+Are there open Bug Reports? How many? How long have they been open?
+Any active or previous vulnerabilities listed in NVD? https://nvd.nist.gov/vuln/search?results_type=overview&query=Cloudinary&search_type=all&form_type=Basic&isCpeNameSearch=false
+What dependencies does this package require.
+
+
+**Assistant:**
+I highly doubt that a process to request approvals for new third-party packages will have the desired effects. I've worked for organizations that have tried to introduce similar processes, and they tend to fail. The approval process rarely fits into the speed and cadence of development, leading to problems like teams not being able to execute on their planned work or bypassing the review process entirely and dropping key aspects of third-party package review and selection.
+Especially in agile organizations, when the need or possibility for pulling in a third-party package as a solution arises, the team usually doesn't have a lot of time to make a decision. The work is already in progress and they need a rapid decision to begin to move forward to design, build, and integrate solutions.
+The first step is to give the team the knowledge needed to select appropriate packages, considering things like license terms and the overall health of the different options. The health of the package may consider any number of factors, but some that I've seen are things like how responsive the developer is to questions/issues in official support channels, how active the user community is (including third-party channels like Stack Overflow or various forums), the number of open issues and/or time to resolve defects, number of open pull requests, age of pull request, number of committers and who the committers are, frequency of commits, frequency of releases, number of times the package is a dependency, number of downloads (per unit of time, in some cases), number of dependencies, and documentation (readme, contributor documents, funding information).
+Unfortunately, no one but you can determine what factors are most important. A big factor are the risks associated with the system that you are developing, along with the tolerance for risk for the developing organization as well as the users and customers. Some contexts are very sensitive to risks, while others are very tolerant.
+Giving the developers doing the work the training and the tools needed to compare options and make informed decisions based on guidelines is important. Taking these tactical decisions away from the team will only slow down the development effort and leave the teams unempowered to make the best design decisions.
+Once a package is incorporated, there's also ongoing maintenance.
+Depending on your threat model, you may also need to consider other ways to mitigate risks. Even with the appropriate reviews, there are cases of developers yanking their packages from the Internet, purposefully injecting malicious code in new versions, or not adhering to standard versioning schemes and breaking dependent systems. Versioning pinning, standing up mirrors for your dependencies, or building your dependencies from source may mitigate further risks. For open source dependencies, you may also be able to scan the source with your internal vulnerability scanners to further mitigate risks of malicious code."
+263073,['device control tool'],"**User:**
+Is there software on Windows that will protect myself from devices like the ""USB Rubber Ducky""? I'm pretty sure a lot of you are familiar with the ""USB Rubber Ducky"", the USB stick that emulates a keyboard. Is there software for Windows that will prevent this type of attack, while still letting me use legitimate keyboards? For example, is there a program that will prompt ""Please enter the words you see on the screen to activate your keyboard"" when you plug in a new keyboard, sort of like a CAPTCHA? If not, is it easy to write such software?
+
+**Assistant:**
+I'm not aware of any built into Windows. However, it's possible to configure a system to lock the screen when a new keyboard is added. This thwarts some of the ""rubber ducky"" attacks by preventing a simple set of keystrokes from running immediately on insertion of the USB device doing anything useful."
+267369,['ssl and tls certificate authorities'],"**User:**
+When signing with server public key, how do I prove server key is trustworthy? I have a server-side app in a Docker container that communicates with my desktop client app.
+I am struggling with how to ensure that the response from the server is trustworthy. I am fairly new to working with RSA key pairs and establishing client-server trustworthy communication.
+The most common answer I have seen is to sign the response with the private key that was used to generate the server's HTTPS certificate.  AFAIK this certificate is normally generated by a trusted Certificate Authority (CA), but it could be produced by LetsEncrypt. My understanding is that LetsEncrypt certificates are considered self-signed, and not as trusted as CA-generated certificates.  Either way, this is where the 'trust' in the server's response supposedly comes from.
+This leads me to the following problems:
+
+How does the client retrieve the server's CA-issued certificate, if the certificate is hidden in some /etc/pki/tls/certs/ folder?  This is where the certificate is located on my host.
+How does the server-side app access the private key that produced that certificate, if the private key is hidden in some /etc/pki/tls/private/ folder that requires root access?  This is where the private key is located on my host.
+How can I set up my docker container to have a CA-issued certificate for development purposes prior to deploying the app to my host, which already has a CA-issued certificate.
+
+This is what I've implemented, since I haven't solved 1, 2 or 3:
+client sends initial request to server.
+server generates and stores RSA key pair.
+server sends public key to client as the response.
+client stores public key for use later.
+
+Now that the client has the server's public key, every request/response pair can follow this algorithm:
+client sends new request to server.
+server creates some response.
+server generates a hash of this response.
+server encrypts this hash with the RSA private key.
+server sends the response, and encrypted hash to the client.
+
+client receives server's response and encrypted hash.
+client hashes the response with same algorithm the server used.
+client decrypts the encrypted hash using the public key it received earlier.
+client compares the decrypted hash with the hash the client computed. 
+
+if the hashes match, the response from the server is trustworthy.
+
+This algorithm works just fine with my Docker container running locally on my computer, where trust in the public key from the server is not mandatory.
+I would like to sign the responses with the CA-issued private key, instead of the RSA private key generated when the client's first request is received.
+When I deploy this docker app to my host, I'm hoping this is how I'll be able to prove that responses from the server are trustworthy.
+I'm struggling to understand how the client gets the CA-issued certificate (public key), and how the server can access the CA-issued private key.
+The desktop client app is written in C++ (JUCE), the server-side app is written in PHP.
+
+**Assistant:**
+My understanding is that LetsEncrypt certificates are considered self-signed, and not as trusted as CA-generated certificates.
+No. The CA certificate of Let's Encrypt is issued and signed by CA ""ISRG X1"", Internet Security Research Group. On Linux systems it is usually preinstalled and can be found in the file /etc/ssl/certs/ISRG_Root_X1.pem.
+When client validates TLS certificate, it requests the whole certificate chain from your server. The certificate of your server is signed by Let's Encrypt. The certificate of Let's Encrypt is signed by ISRG X1. The latter is trusted because it is preinstalled in your system.
+How can I set up my docker container to have a CA-issued certificate for development purposes prior to deploying the app to my host, which already has a CA-issued certificate.
+Normally separate application instances don't get access to the TLS private key. Instead, there is a web server that acts as a reverse proxy. It is responsible for TLS connection. In particular, it has the whole certificate chain and access to the private key. It decrypts TLS request received from the client and forwards it to the corresponding application. Since you already have an application that uses TLS, you may want to add the new application behind the same reverse proxy. It does not need access to certificate because it will receive traffic from the reverse proxy, not from the client directly.
+how the client gets the CA-issued certificate (public key)
+As described above, client requests the certificate chain from the server when it establishes TLS connection. This chain includes the CA certificate of Let's Encrypt tha is issued and signed by ISRG X1, whose certificate is preinstalled on the client and thus is trusted.
+how the server can access the CA-issued private key
+Private key is not issued. When you request a certificate, you generate a key pair. You keep private key secret. When you request certificate from CA, you send to CA only your public key, it is a part of CSR. When you generate a key pair, you provide the private key to your server that is responsible for TLS, e.g. to your reverse proxy. The application behind this web server or reverse proxy does not need access to the private key.
+Here are references to different tools that can help to automate requesting TLS certificates from Let's Encrypt."
+278608,['browser ad-blocker'],"**User:**
+What prevents random software installation popups from mis-interpreting our consents I often see while browsing internet that a popup comes saying random thing like my computer is under threat or something similar and then asking me if I want to take a particular action like installing etc to prevent the threat and then gives two buttons yes and no. What I don't understand is what prevents the popup from linking internally my ""no consent"" with actually going ahead with installation? Is it just loss of reputation/face (which anyway these random popups may not have) or something technical?
+
+**Assistant:**
+What you describe is called scareware and is a kind of malware.
+Malware authors don't care about their reputation (except maybe their reputation among criminals), nor are they bound by any usability guidelines. The technical possibilities for distinguishing between an “I consent” and an “I do not consent” button are also very limited, because what buttons mean is completely application-specific. Since the sole purpose of this pop-up is to make you install malware, any user interaction that can trigger this probably will.
+The only safe option is to:
+configure your browser to block pop-up windows (should be on by default in most modern browsers)
+don't click anywhere on a web page when it seems fishy
+don't visit the site again"
+279229,"['container security platform', 'virtual machine']","**User:**
+Is podman adapted (like singularity) to let untrusted users run untrusted code? Singularity explicitly say that it is designed to let untrusted users run untrusted code safely: https://docs.sylabs.io/guides/2.6/admin-guide/security.html:
+
+Untrusted users running untrusted containers!
+This simple phrase describes the security perspective Singularity is designed with. And if you additionally consider the fact that running containers at all typically requires some level of privilege escalation, means that attention to security is of the utmost importance.
+
+My question is: is it the same with podman, or are there different security choices and tradeoffs that make it less suited to use podman to allow untrusted users to run untrusted code? It looks from podman architecture and specification (in particular, rootless / no daemon) that podman is safe too for this use case, but it would be good to have a more detailed answer.
+
+**Assistant:**
+The Singularity documentation oversells the security features. Most of the described measures are fairly basic and also exist in Podman and even plain old Docker.
+Singularity supports user namespaces to run containers without root privileges. Podman uses the same feature, and so does Docker.
+For containers which do run as root, Singularity uses Linux Capabilities to limit privileges. Again, this also applies to Podman.
+Singularity lets you filter system calls with seccomp and has basic support for SELinux and AppArmor. Podman has the same, but it also uses the more sophisticated sVirt approach to isolating containers with automatically generated SELinux labels.
+So based on the documentation, Singularity isn't unique in terms of container security. You'll find the same features (and more) in Podman and Docker."

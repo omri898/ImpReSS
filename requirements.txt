@@ -1,0 +1,30 @@
+# Core ML/DL frameworks
+torch
+transformers
+accelerate
+datasets
+sentence-transformers
+
+# Vector search
+faiss-gpu-cu12 # For CUDA 12.x support
+# faiss-cpu # For non-GPU support, install faiss-cpu instead
+
+# LangChain for LLM integration
+langchain
+langchain-core
+langchain-huggingface
+
+# Data processing
+pandas
+numpy
+tqdm
+
+# Configuration
+pyyaml
+python-dotenv
+
+# Pydantic for data validation
+pydantic
+
+# Utilities
+typing-extensions
