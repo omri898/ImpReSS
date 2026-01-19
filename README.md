@@ -1,9 +1,10 @@
 # ImpReSS: Designing and Evaluating a Lightweight Implicit Recommender System in Conversational Support Agents
 
 [![Conference](https://img.shields.io/badge/IUI'26-Accepted-blue)](https://iui.acm.org/2026/)
+[![DOI](https://img.shields.io/badge/DOI-10.1145%2F3742413.3789151-blue)](https://dl.acm.org/doi/10.1145/3742413.3789151)
 [![License](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
-This repository contains the official implementation and datasets for the paper **"ImpReSS: Designing and Evaluating a Lightweight Implicit Recommender System in Conversational Support Agents"**, accepted at the 31st International Conference on Intelligent User Interfaces (**IUI '26**).
+This repository contains the official implementation and datasets for the paper [**"ImpReSS: Designing and Evaluating a Lightweight Implicit Recommender System in Conversational Support Agents"**](https://dl.acm.org/doi/10.1145/3742413.3789151), accepted at the 31st International Conference on Intelligent User Interfaces (**IUI '26**).
 
 ## 📖 Overview
 
