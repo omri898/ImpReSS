@@ -44,13 +44,34 @@ impress_repo
 git clone https://github.com/omri898/ImpReSS.git
 cd ImpReSS
 ```
+2. Create and Activate Environment:
 
-2. Install dependencies:
+Choose one of the following methods to isolate your dependencies:
+
+**Option A: Using `venv` (Standard Python)**
+
+```bash
+# Linux / MacOS
+python -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+```
+**Option B: Using conda**
+
+```bash
+conda create -n impress_env python=3.10 -y
+conda activate impress_env
+```
+
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Environment Setup:**
+4. Environment Setup:
 Create a `.env` file in the root directory if you need to set specific API keys (e.g., for Tavily/LangSmith), though the core open-source pipeline relies on local HuggingFace models.
 
 ## 📊 Datasets
@@ -202,7 +223,7 @@ If you use ImpReSS in your research, please cite our IUI '26 paper:
 
 ```bibtex
 @inproceedings{impress_iui26,
-  author = {Omri Haller, Yair Meidan, ...},
+  author = {Omri Haller, Yair Meidan, Dudu Mimran, Yuval Elovici, Asaf Shabtai},
   title = {ImpReSS: Designing and Evaluating a Lightweight Implicit Recommender System in Conversational Support Agents},
   booktitle = {31st International Conference on Intelligent User Interfaces (IUI '26)},
   year = {2026},
