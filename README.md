@@ -52,17 +52,17 @@ Choose one of the following methods to isolate your dependencies:
 
 ```bash
 # Linux / MacOS
-python -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate
 
 # Windows
-python -m venv venv
+py -3.11 -m venv venv
 venv\Scripts\activate
 ```
-**Option B: Using conda**
+**Option B: Using `conda`**
 
 ```bash
-conda create -n impress_env python=3.10 -y
+conda create -n impress_env python=3.11 -y
 conda activate impress_env
 ```
 
